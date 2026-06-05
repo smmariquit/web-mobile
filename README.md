@@ -73,3 +73,12 @@ bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## 📊 Current State of the Code
+- **Tech Stack:** Node.js/NPM
+- **Repository Size:** 41 tracked files
+- **Latest Update:** `5baec9e chore: add stale issue and PR validators`
+
+
+---
+*☕ If you found this project useful, you can support my work at [kape.stimmie.dev](https://kape.stimmie.dev)!*
