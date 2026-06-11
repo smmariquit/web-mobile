@@ -1,3 +1,5 @@
+// server/api/skills.get.ts
+
 /**
  * GET /api/skills
  * Returns categorized skill data from the Nitro backend.

@@ -1,3 +1,5 @@
+// server/api/projects.get.ts
+
 /**
  * GET /api/projects
  * Returns all portfolio projects from the Nitro server layer.
