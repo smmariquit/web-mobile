@@ -5,6 +5,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  // Vercel Web Analytics (covers web.stimmie.dev). Auto-injects the tracker on
+  // the deployed Vercel project; no-ops locally.
+  modules: ['@vercel/analytics/nuxt'],
+
   app: {
     head: {
       htmlAttrs: { lang: 'en' },
