@@ -8,22 +8,23 @@
 export default defineEventHandler(() => {
   return [
     {
-      slug: 'freshie-guide',
-      title: 'Freshie Guide',
-      subtitle: 'University Freshmen Guide',
+      slug: 'pizza-and-friends',
+      title: 'Pizza & Friends',
+      subtitle: 'Community Website & Archive',
       category: 'web',
       year: 2026,
       featured: true,
-      description: 'A web application for university freshmen built with Astro and Tailwind CSS. Features optimized static routing, markdown guides, and improved performance metrics.',
-      impact: 'Migrated to Astro · 100% Lighthouse Score',
-      stack: ['Astro', 'React', 'Tailwind CSS'],
+      description: 'The official community website for Pizza & Friends, migrated to Astro for 0kb JS performance. Features a v3 polaroid wall design, live Discord member counts, and an interactive archive of legacy v0, v1, and v2 designs.',
+      impact: '0kb JS · Live Discord integration',
+      stack: ['Astro', 'Tailwind CSS', 'TypeScript'],
       links: {
-        github: 'https://github.com/smmariquit/freshie-guide',
+        live: 'https://pizzaandfriends.stimmie.dev',
+        github: 'https://github.com/smmariquit/pizza-and-friends',
       },
       images: [
-        '/projects/freshie-guide-1.png'
+        '/projects/pizza-and-friends-1.png'
       ],
-      color: '#f97316',
+      color: '#ff5e5e',
     },
     {
       slug: 'room-tba',
