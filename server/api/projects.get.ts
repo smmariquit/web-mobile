@@ -8,6 +8,24 @@
 export default defineEventHandler(() => {
   return [
     {
+      slug: 'freshie-guide',
+      title: 'Freshie Guide',
+      subtitle: 'University Freshmen Guide',
+      category: 'web',
+      year: 2026,
+      featured: true,
+      description: 'A web application for university freshmen built with Astro and Tailwind CSS. Features optimized static routing, markdown guides, and improved performance metrics.',
+      impact: 'Migrated to Astro · 100% Lighthouse Score',
+      stack: ['Astro', 'React', 'Tailwind CSS'],
+      links: {
+        github: 'https://github.com/smmariquit/freshie-guide',
+      },
+      images: [
+        '/projects/freshie-guide-1.png'
+      ],
+      color: '#f97316',
+    },
+    {
       slug: 'room-tba',
       title: 'Room TBA',
       subtitle: 'Campus Room & Class Finder',
@@ -65,7 +83,9 @@ export default defineEventHandler(() => {
       links: {
         github: 'https://github.com/smmariquit/bus-ticketing-app',
       },
-      images: [],
+      images: [
+        '/projects/bus-ticketing-1.png'
+      ],
       color: '#e86a7e',
     },
     {
