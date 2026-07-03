@@ -1,0 +1,22 @@
+/** Curated portfolio projects — always counted, never noise. */
+export const PORTFOLIO_SLUGS = new Set([
+  'joinpizza.fun',
+  'room-tba',
+  'gradesim',
+  'bus-ticketing-app',
+  'revolt',
+  'REVolt',
+  'hearthcraft',
+  'hearthcraft-museum',
+  'atlas-of-my-skies',
+  'comsci-128',
+  'aquaguard-dashboard',
+  'aquaguard-mobile',
+  'cards-against-humanity-pinoy',
+  'comskies-bot',
+  'discord-bot-host',
+  'crewmate',
+  'illumina',
+  'civik-ai',
+  'ekonsulta-internals',
+])
