@@ -32,6 +32,7 @@ npm run dev            # http://localhost:3000
 | Route | Description |
 | ----- | ----------- |
 | `GET /api/projects` | Static featured portfolio projects |
+| `GET /api/pricing` | Service starting rates, budget bands, and hourly consulting |
 | `GET /api/github-stats` | Live public repos, stars, followers (1h cache) |
 | `GET /api/stack` | Web/mobile tech detected from GitHub repos |
 | `GET /api/skills` | Skills grouped by category with repo counts |
