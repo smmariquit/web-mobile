@@ -1,6 +1,10 @@
 // nuxt.config.ts
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { PORTFOLIO_PROJECTS } from './server/data/projects'
+
+const projectRoutes = PORTFOLIO_PROJECTS.map((project) => `/projects/${project.slug}`)
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -91,5 +95,12 @@ export default defineNuxtConfig({
     '/api/pricing': { swr: false },
     '/api/engagement': { swr: false },
     '/api/projects': { swr: false },
+  },
+
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: projectRoutes,
+    },
   },
 })

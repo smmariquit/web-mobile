@@ -5,6 +5,8 @@
       :key="src"
       :src="src"
       :alt="alt"
+      width="1200"
+      height="675"
       loading="lazy"
       decoding="async"
     />
@@ -77,6 +79,8 @@ onUnmounted(() => {
   display: block;
   width: 100%;
   height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
 }
 
 .preview-image__fallback {
