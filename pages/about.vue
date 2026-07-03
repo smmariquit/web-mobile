@@ -4,17 +4,22 @@
       <div class="container">
         <FadeIn>
           <div class="about-header">
-            <p class="label">About Me</p>
+            <p class="label">About</p>
             <h1 class="heading-xl">
               Simonee Ezekiel
               <span class="hero__accent">Mariquit</span>
             </h1>
             <p class="body-lg about-header__body">
-              I'm a software engineer and BS student at the
-              <strong>University of the Philippines Los Baños</strong>, building
-              web and mobile products for real people. I started coding servers
-              at 13, built my own PC at 16, and haven't stopped shipping since.
+              BS Computer Science at
+              <strong>UP Los Baños</strong>. Started running game servers at 13,
+              built my own PC at 16, now shipping web apps, mobile apps, Discord bots,
+              and browser extensions. I hate LinkedIn but I do reply to email.
             </p>
+            <div v-if="stats" class="about-stats">
+              <span class="tag">{{ stats.publicRepos }} public repos</span>
+              <span class="tag tag--accent">{{ stats.totalStars }} stars</span>
+              <span class="tag">{{ stats.followers }} followers</span>
+            </div>
           </div>
         </FadeIn>
 
@@ -41,21 +46,30 @@
         <!-- Skills -->
         <FadeIn>
           <div class="about-section">
-            <h2 class="heading-md">Technical Skills</h2>
-            <TechMarquee style="margin-bottom: var(--sp-10);" />
+            <h2 class="heading-md">Stack from GitHub</h2>
+            <p class="body" style="margin-bottom: var(--sp-6);">
+              Detected across my public repos — not a resume keyword dump.
+              Proficiency tags follow repo count.
+            </p>
+            <TechStack
+              v-if="stack?.technologies?.length"
+              :technologies="stack.technologies"
+              style="margin-bottom: var(--sp-10);"
+            />
             <div v-if="skills" class="skills-grid">
               <div
                 v-for="cat in skills.categories"
                 :key="cat.name"
                 class="card skill-card"
               >
-                <div class="skill-card__header">
-                  <span class="skill-card__icon">{{ cat.icon }}</span>
-                  <h3 class="heading-sm">{{ cat.name }}</h3>
-                </div>
+                <h3 class="heading-sm skill-card__title">{{ cat.name }}</h3>
                 <ul class="skill-list">
                   <li v-for="skill in cat.items" :key="skill.name" class="skill-item">
-                    <span>{{ skill.name }}</span>
+                    <span class="skill-item__name">
+                      <img v-if="skill.icon" :src="skill.icon" alt="" class="skill-item__icon" width="16" height="16" />
+                      {{ skill.name }}
+                      <span class="mono skill-item__repos">{{ skill.repoCount }} repos</span>
+                    </span>
                     <span class="tag" :class="levelClass(skill.level)">{{ skill.level }}</span>
                   </li>
                 </ul>
@@ -67,10 +81,9 @@
         <!-- Speaking -->
         <FadeIn>
           <div class="about-section">
-            <h2 class="heading-md">Talks &amp; Workshops</h2>
+            <h2 class="heading-md">Talks &amp; workshops</h2>
             <p class="body" style="margin-bottom: var(--sp-6);">
-              I've given 7+ talks and workshops across universities and tech communities
-              on data science, ML, project management, and hackathon strategy.
+              7 talks/workshops so far — data science, ML, hackathon pitching, agile workflows.
             </p>
             <div class="talks-grid">
               <div v-for="talk in talks" :key="talk.title" class="card talk-card">
@@ -92,7 +105,11 @@
 <script setup lang="ts">
 useHead({ title: 'About' })
 
-const { data: skills } = await useFetch('/api/skills')
+const [{ data: skills }, { data: stack }, { data: stats }] = await Promise.all([
+  useFetch('/api/skills'),
+  useFetch('/api/stack'),
+  useFetch('/api/github-stats'),
+])
 
 const levelClass = (level: string) => {
   if (level === 'proficient') return 'tag--accent'
@@ -105,21 +122,21 @@ const experience = [
     org: 'E-Konsulta Medical Clinic',
     period: 'Apr 2025 – Jan 2026',
     description:
-      'Built patient-facing booking systems, mobile-responsive UIs, and internal Discord bots for team coordination. React/Next.js frontend with form validation and real-time features.',
+      'Patient booking flows, mobile-responsive UI, internal Discord bots for standups. React/Next.js, form validation, Firebase.',
   },
   {
-    title: 'Web Administrator & Developer',
-    org: 'Freelance / Gaming Communities',
-    period: '2019 – Present',
+    title: 'Web admin & developer',
+    org: 'Freelance / gaming communities',
+    period: '2019 – present',
     description:
-      'Developed and maintained community forums and storefronts using WordPress. Integrated payment gateways (Tebex), managed Linux VPS deployments, and handled SEO and technical support.',
+      'WordPress forums and storefronts, Tebex payments, Linux VPS ops, SEO, and support for gaming communities.',
   },
   {
-    title: 'Founder & Lead',
-    org: 'HearthCraft Minecraft Server',
-    period: '2018 – 2024 · 6 years',
+    title: 'Founder',
+    org: 'HearthCraft Minecraft server',
+    period: '2018 – 2024',
     description:
-      'Built and maintained a Minecraft server community of 10,000+ players. Managed bare-metal servers, Docker deployments, Java plugins, and community moderation.',
+      'Survival server, 10k+ players over six years. Bare-metal and cloud hosts, Docker, Java plugins, moderation.',
   },
 ]
 
@@ -148,6 +165,13 @@ const talks = [
   color: var(--c-text-primary);
 }
 
+.about-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-6);
+}
+
 .hero__accent {
   background: linear-gradient(135deg, var(--c-accent) 0%, #f0c674 100%);
   -webkit-background-clip: text;
@@ -165,7 +189,6 @@ const talks = [
   border-bottom: 1px solid var(--c-border);
 }
 
-/* Timeline */
 .timeline {
   display: flex;
   flex-direction: column;
@@ -204,23 +227,14 @@ const talks = [
   gap: var(--sp-2);
 }
 
-/* Skills */
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--sp-6);
 }
 
-.skill-card__header {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
+.skill-card__title {
   margin-bottom: var(--sp-5);
-}
-
-.skill-card__icon {
-  color: var(--c-accent);
-  font-size: 1.125rem;
 }
 
 .skill-list {
@@ -233,11 +247,28 @@ const talks = [
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--sp-3);
   font-size: 0.875rem;
   color: var(--c-text-secondary);
 }
 
-/* Talks */
+.skill-item__name {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.skill-item__icon {
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.skill-item__repos {
+  font-size: 0.6875rem;
+  color: var(--c-text-tertiary);
+}
+
 .talks-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

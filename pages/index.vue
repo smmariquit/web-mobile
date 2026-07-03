@@ -5,46 +5,78 @@
       <div class="container">
         <FadeIn>
           <div class="hero__content">
-            <p class="label">Web &amp; Mobile Developer</p>
+            <p class="label">Web &amp; Mobile · {{ stats?.login ?? 'smmariquit' }} on GitHub</p>
 
             <h1 class="heading-xl hero__heading">
-              I build things for
+              I build for
               <br />
-              <span class="hero__accent">screens of all sizes.</span>
+              <span class="hero__accent">phones, browsers, and POS terminals.</span>
             </h1>
 
             <p class="body-lg hero__body">
-              I'm <strong>Stimmie</strong> — a software engineer from the Philippines
-              who ships web apps, mobile apps, and browser extensions. From campus tools
-              used by thousands to hardware-integrated POS systems, I turn ideas into
-              polished products.
+              I'm <strong>Stimmie</strong> — UPLB CS student. Built
+              <NuxtLink to="/projects/room-tba">Room TBA</NuxtLink>,
+              <NuxtLink to="/projects/gradesim">GradeSim</NuxtLink>,
+              <NuxtLink to="/projects/bus-ticketing-app">bus ticketing on React Native</NuxtLink>,
+              and a Minecraft server that hit 10k players. I write the code, wire the CI,
+              and deploy it.
             </p>
 
             <div class="hero__actions">
               <NuxtLink to="/projects" class="btn btn--primary">
-                View Projects
+                See projects
                 <span aria-hidden="true">→</span>
               </NuxtLink>
               <NuxtLink to="/contact" class="btn btn--outline">
-                Hire Me
+                Hire me
               </NuxtLink>
             </div>
 
-            <div class="hero__stats">
+            <div class="hero__stats" aria-label="GitHub stats">
               <div class="hero__stat">
-                <span class="hero__stat-value">35+</span>
-                <span class="hero__stat-label body">Projects shipped</span>
+                <span class="hero__stat-value">{{ formatStat(stats?.publicRepos) }}</span>
+                <span class="hero__stat-label body">Public repos</span>
               </div>
               <div class="hero__stat">
-                <span class="hero__stat-value">10K+</span>
-                <span class="hero__stat-label body">Users reached</span>
+                <span class="hero__stat-value">{{ formatStat(stats?.totalStars) }}</span>
+                <span class="hero__stat-label body">GitHub stars</span>
               </div>
               <div class="hero__stat">
-                <span class="hero__stat-value">6+</span>
-                <span class="hero__stat-label body">Years building</span>
+                <span class="hero__stat-value">{{ formatStat(stats?.followers) }}</span>
+                <span class="hero__stat-label body">Followers</span>
+              </div>
+              <div class="hero__stat">
+                <span class="hero__stat-value">{{ stats?.yearsOnGitHub ?? '—' }}</span>
+                <span class="hero__stat-label body">Years on GitHub</span>
               </div>
             </div>
+            <p v-if="stats?.fetchedAt" class="hero__stats-note mono">
+              Live from
+              <a :href="stats.profileUrl" target="_blank" rel="noopener">github.com/{{ stats.login }}</a>
+              · updated {{ formatRelative(stats.fetchedAt) }}
+            </p>
           </div>
+        </FadeIn>
+      </div>
+    </section>
+
+    <!-- Stack -->
+    <section class="section" id="stack">
+      <div class="container">
+        <FadeIn>
+          <div class="section-header">
+            <p class="label">From my repos</p>
+            <h2 class="heading-lg">Web &amp; mobile stack</h2>
+            <p class="body-lg">
+              Pulled from {{ stats?.publicRepos ?? 'my' }} public GitHub repos — frameworks,
+              languages, and platforms I actually ship with. Counts are repos where each
+              tech shows up.
+            </p>
+          </div>
+        </FadeIn>
+
+        <FadeIn v-if="stack?.technologies?.length">
+          <TechStack :technologies="stack.technologies" />
         </FadeIn>
       </div>
     </section>
@@ -54,11 +86,11 @@
       <div class="container">
         <FadeIn>
           <div class="section-header">
-            <p class="label">Selected Work</p>
-            <h2 class="heading-lg">Featured Projects</h2>
+            <p class="label">Selected work</p>
+            <h2 class="heading-lg">Featured projects</h2>
             <p class="body-lg">
-              A few things I've built — from mobile apps with hardware integration to
-              campus-wide tools.
+              Campus tools, extensions, mobile POS, and community sites — the stuff
+              I'd put in front of a client.
             </p>
           </div>
         </FadeIn>
@@ -72,7 +104,7 @@
         <FadeIn>
           <div style="text-align: center; margin-top: var(--sp-10);">
             <NuxtLink to="/projects" class="btn btn--outline">
-              View All Projects
+              All projects
               <span aria-hidden="true">→</span>
             </NuxtLink>
           </div>
@@ -85,15 +117,15 @@
       <div class="container">
         <FadeIn>
           <div class="section-header">
-            <p class="label">What I Offer</p>
-            <h2 class="heading-lg">Services</h2>
+            <p class="label">What I do</p>
+            <h2 class="heading-lg">Freelance services</h2>
           </div>
         </FadeIn>
 
         <div class="services-grid">
           <FadeIn v-for="(service, i) in services" :key="service.title">
             <div class="card service-card" :style="{ transitionDelay: `${i * 80}ms` }">
-              <span class="service-card__icon">{{ service.icon }}</span>
+              <img :src="service.icon" alt="" class="service-card__icon" width="28" height="28" />
               <h3 class="heading-sm">{{ service.title }}</h3>
               <p class="body">{{ service.description }}</p>
             </div>
@@ -107,19 +139,25 @@
       <div class="container">
         <FadeIn>
           <div class="cta-card card">
-            <p class="label">Ready to build?</p>
-            <h2 class="heading-lg">Let's make something great.</h2>
+            <p class="label">Need a builder?</p>
+            <h2 class="heading-lg">Got a web or mobile project?</h2>
             <p class="body-lg">
-              I'm available for freelance web and mobile development projects.
-              Whether you need a full product, a feature, or consulting — let's talk.
+              Full product, one feature, or a CI pipeline that actually builds your APK.
+              Email me — I reply within a day.
             </p>
             <div class="cta-card__actions">
               <NuxtLink to="/contact" class="btn btn--primary">
-                Get in Touch
+                Email me
                 <span aria-hidden="true">→</span>
               </NuxtLink>
-              <a href="https://github.com/smmariquit" target="_blank" rel="noopener" class="btn btn--outline">
-                GitHub Profile
+              <a
+                v-if="stats?.profileUrl"
+                :href="stats.profileUrl"
+                target="_blank"
+                rel="noopener"
+                class="btn btn--outline"
+              >
+                {{ stats.publicRepos }} repos on GitHub
               </a>
             </div>
           </div>
@@ -130,44 +168,59 @@
 </template>
 
 <script setup lang="ts">
-useHead({ title: null }) // uses default from app.vue
+useHead({ title: null })
 
-const { data: projects } = await useFetch('/api/projects')
+const [{ data: projects }, { data: stats }, { data: stack }] = await Promise.all([
+  useFetch('/api/projects'),
+  useFetch('/api/github-stats'),
+  useFetch('/api/stack'),
+])
 
-const featured = computed(() =>
-  projects.value?.filter((p: any) => p.featured) ?? []
-)
+const featured = computed(() => projects.value?.filter((p: { featured: boolean }) => p.featured) ?? [])
+
+function formatStat(value?: number) {
+  if (value === undefined) return '—'
+  return value.toLocaleString('en-US')
+}
+
+function formatRelative(iso: string) {
+  const minutes = Math.round((Date.now() - new Date(iso).getTime()) / 60000)
+  if (minutes < 2) return 'just now'
+  if (minutes < 60) return `${minutes}m ago`
+  const hours = Math.round(minutes / 60)
+  if (hours < 24) return `${hours}h ago`
+  return `${Math.round(hours / 24)}d ago`
+}
 
 const services = [
   {
-    icon: '◆',
-    title: 'Web Development',
+    icon: '/tech/nextdotjs.svg',
+    title: 'Web apps',
     description:
-      'Responsive, performant web applications with modern frameworks — Vue, React, Svelte, Next.js, or Nuxt. From landing pages to full-stack platforms.',
+      'Next.js, Nuxt, SvelteKit, Astro — landing pages through full-stack apps with Supabase, Postgres, and Vercel deploys.',
   },
   {
-    icon: '◇',
-    title: 'Mobile Development',
+    icon: '/tech/flutter.svg',
+    title: 'Mobile apps',
     description:
-      'Cross-platform mobile apps with Flutter or React Native. Hardware integration, offline support, and native-feeling UIs.',
+      'Flutter and React Native (Expo). Offline-first, maps, Firebase backends, and hardware hooks for POS or IoT.',
   },
   {
-    icon: '▣',
-    title: 'Browser Extensions',
+    icon: '/tech/javascript.svg',
+    title: 'Browser extensions',
     description:
-      'Chrome, Firefox, and Edge extensions with Manifest V3. Published extensions with CI/CD pipelines and automated versioning.',
+      'Chrome/Firefox MV3 extensions with semantic-release, store listings, and CI that ships on every merge.',
   },
   {
-    icon: '▤',
-    title: 'Technical Consulting',
+    icon: '/tech/docker.svg',
+    title: 'DevOps & consulting',
     description:
-      'Architecture guidance, code review, and DevOps setup. CI/CD pipelines, Docker, Vercel deployments, and team workflow optimization.',
+      'GitHub Actions, Docker, Linux VPS work. Code review, architecture calls, and pipelines that build APKs without manual steps.',
   },
 ]
 </script>
 
 <style scoped>
-/* Hero */
 .hero {
   padding-top: var(--sp-24);
   padding-bottom: var(--sp-16);
@@ -190,11 +243,17 @@ const services = [
 
 .hero__body {
   margin-top: var(--sp-6);
-  max-width: 560px;
+  max-width: 580px;
 }
 
 .hero__body strong {
   color: var(--c-text-primary);
+}
+
+.hero__body a {
+  color: var(--c-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .hero__actions {
@@ -206,16 +265,18 @@ const services = [
 
 .hero__stats {
   display: flex;
-  gap: var(--sp-10);
+  gap: var(--sp-8);
   margin-top: var(--sp-12);
   padding-top: var(--sp-8);
   border-top: 1px solid var(--c-border);
+  flex-wrap: wrap;
 }
 
 .hero__stat {
   display: flex;
   flex-direction: column;
   gap: var(--sp-1);
+  min-width: 88px;
 }
 
 .hero__stat-value {
@@ -229,7 +290,18 @@ const services = [
   font-size: 0.8125rem;
 }
 
-/* Section headers */
+.hero__stats-note {
+  margin-top: var(--sp-4);
+  font-size: 0.6875rem;
+  color: var(--c-text-tertiary);
+}
+
+.hero__stats-note a {
+  color: var(--c-text-secondary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .section-header {
   margin-bottom: var(--sp-10);
 }
@@ -242,14 +314,12 @@ const services = [
   margin-bottom: var(--sp-4);
 }
 
-/* Featured grid */
 .featured-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: var(--sp-6);
 }
 
-/* Services grid */
 .services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -263,12 +333,9 @@ const services = [
 }
 
 .service-card__icon {
-  font-size: 1.5rem;
-  color: var(--c-accent);
-  margin-bottom: var(--sp-2);
+  object-fit: contain;
 }
 
-/* CTA */
 .cta-card {
   text-align: center;
   display: flex;
@@ -284,7 +351,7 @@ const services = [
 }
 
 .cta-card .body-lg {
-  max-width: 500px;
+  max-width: 520px;
 }
 
 .cta-card__actions {

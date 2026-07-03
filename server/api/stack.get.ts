@@ -7,14 +7,14 @@ export default defineCachedEventHandler(
     const technologies = detectTechStack(repos)
 
     return {
+      technologies,
       categories: buildSkillCategories(technologies),
-      source: 'github',
       fetchedAt: new Date().toISOString(),
     }
   },
   {
     maxAge: 60 * 60,
     swr: true,
-    name: 'github-skills',
+    name: 'github-stack',
   },
 )

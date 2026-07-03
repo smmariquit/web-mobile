@@ -1,84 +1,49 @@
-# Nuxt Minimal Starter
+# web.stimmie.dev — Web & Mobile Portfolio
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Nuxt 3 portfolio for freelance web and mobile work. Live GitHub stats and a tech stack grid derived from public repos.
+
+**Live:** [web.stimmie.dev](https://web.stimmie.dev)
+
+## Stack
+
+- Nuxt 3 + Vue 3 + Nitro
+- Vercel Analytics
+- GitHub REST API (cached server routes)
 
 ## Setup
 
-Make sure to install dependencies:
-
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+cp .env.example .env   # optional: GITHUB_TOKEN for higher API limits
+npm run dev            # http://localhost:3000
 ```
 
-## Development Server
+## Scripts
 
-Start the development server on `http://localhost:3000`:
+| Command | Description |
+| ------- | ----------- |
+| `npm run dev` | Local dev server |
+| `npm run build` | Production build |
+| `npm run preview` | Preview production build |
+| `bash scripts/download-tech-logos.sh` | Refresh brand SVGs in `public/tech/` |
 
-```bash
-# npm
-npm run dev
+## API routes
 
-# pnpm
-pnpm dev
+| Route | Description |
+| ----- | ----------- |
+| `GET /api/projects` | Static featured portfolio projects |
+| `GET /api/github-stats` | Live public repos, stars, followers (1h cache) |
+| `GET /api/stack` | Web/mobile tech detected from GitHub repos |
+| `GET /api/skills` | Skills grouped by category with repo counts |
+| `POST /api/contact` | Contact form handler |
 
-# yarn
-yarn dev
+## Tech logos
 
-# bun
-bun run dev
-```
+Icons are downloaded from [Simple Icons](https://simpleicons.org) (official brand SVGs), stored in `public/tech/`. Nuxt slug uses a devicon fallback. Do not commit hand-drawn SVGs.
 
-## Production
+## Agent notes
 
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
-
-## 📊 Current State of the Code
-- **Tech Stack:** Node.js/NPM
-- **Repository Size:** 41 tracked files
-- **Latest Update:** `5baec9e chore: add stale issue and PR validators`
-
+See [AGENTS.md](./AGENTS.md) for coding conventions and UI guardrails.
 
 ---
-*☕ If you found this project useful, you can support my work at [kape.stimmie.dev](https://kape.stimmie.dev)!*
+*Part of the [stimmie.dev](https://stimmie.dev) ecosystem.*

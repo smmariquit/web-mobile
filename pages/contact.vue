@@ -5,10 +5,10 @@
         <FadeIn>
           <div class="contact-header">
             <p class="label">Contact</p>
-            <h1 class="heading-xl">Let's work together.</h1>
+            <h1 class="heading-xl">Get in touch.</h1>
             <p class="body-lg contact-header__body">
-              I'm available for freelance web and mobile development projects.
-              Drop me a message and I'll get back to you within 24 hours.
+              Freelance web and mobile work — full builds, one-off features, or CI that
+              ships your APK. Email below; I usually reply within 24 hours.
             </p>
           </div>
         </FadeIn>
@@ -247,12 +247,6 @@ select.form-input {
   height: 8px;
   border-radius: 50%;
   background: var(--c-teal);
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
 }
 
 @media (max-width: 768px) {

@@ -61,5 +61,8 @@ export default defineNuxtConfig({
     '/projects/**': { prerender: true },
     '/about': { prerender: true },
     '/contact': { prerender: true },
+    '/api/github-stats': { swr: 3600 },
+    '/api/stack': { swr: 3600 },
+    '/api/skills': { swr: 3600 },
   },
 })
