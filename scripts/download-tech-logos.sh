@@ -10,12 +10,15 @@ mkdir -p "$OUT"
 
 SLUGS=(
   typescript javascript nextdotjs react vuedotjs nuxtdotjs svelte astro
-  tailwindcss vite supabase vercel flutter dart expo firebase swift kotlin
-  nodedotjs python postgresql docker
+  tailwindcss vite supabase vercel googlecloud cloudflare flutter dart expo firebase swift kotlin
+  nodedotjs python postgresql docker github linkedin figma discord openstreetmap
 )
 
 for slug in "${SLUGS[@]}"; do
-  if curl -sfL "https://cdn.simpleicons.org/${slug}" -o "$OUT/${slug}.svg"; then
+  if [[ "$slug" == "github" || "$slug" == "linkedin" ]]; then
+    curl -sfL "https://cdn.simpleicons.org/github/white" -o "$OUT/${slug}.svg"
+    echo "ok ${slug} (white)"
+  elif curl -sfL "https://cdn.simpleicons.org/${slug}" -o "$OUT/${slug}.svg"; then
     echo "ok ${slug}"
   elif [[ "$slug" == "nuxtdotjs" ]]; then
     curl -sfL "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nuxtjs/nuxtjs-original.svg" \
