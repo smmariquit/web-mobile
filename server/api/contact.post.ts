@@ -1,39 +1,37 @@
-// server/api/contact.post.ts
+import { parseContactPayload } from '../utils/contact-validate'
 
 /**
  * POST /api/contact
- * Receives contact form submissions.
- * In production, this could forward to an email service, webhook, or database.
- * For now, it validates and logs the submission.
+ *
+ * Local dev: logs submission.
+ * Production: set CONTACT_WORKER_URL + CONTACT_SECRET to forward to the
+ * Cloudflare Worker in workers/contact/ (Mailchannels + optional Turnstile).
  */
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event)
+  const payload = parseContactPayload(await readBody(event))
+  const config = useRuntimeConfig(event)
 
-  // Validate required fields
-  if (!body.name || !body.email || !body.message) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Missing required fields: name, email, message',
+  const workerUrl = config.contactWorkerUrl
+  const secret = config.contactSecret
+
+  if (workerUrl && secret) {
+    await $fetch(workerUrl, {
+      method: 'POST',
+      body: payload,
+      headers: {
+        Authorization: `Bearer ${secret}`,
+        'Content-Type': 'application/json',
+      },
+    })
+  } else {
+    console.log('[Contact Form]', {
+      name: payload.name,
+      email: payload.email,
+      type: payload.type || 'unspecified',
+      message: payload.message.substring(0, 500),
+      timestamp: new Date().toISOString(),
     })
   }
-
-  // Basic email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!emailRegex.test(body.email)) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Invalid email address',
-    })
-  }
-
-  // Log the submission (in production, send to email service or database)
-  console.log('[Contact Form]', {
-    name: body.name,
-    email: body.email,
-    type: body.type || 'unspecified',
-    message: body.message.substring(0, 500),
-    timestamp: new Date().toISOString(),
-  })
 
   return {
     success: true,

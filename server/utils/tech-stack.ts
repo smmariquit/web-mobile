@@ -1,9 +1,12 @@
+import { filterPortfolioRepos } from './repo-filter'
+
 export type TechCategory = 'web' | 'mobile' | 'platform'
 
 export interface GitHubRepo {
   name: string
   language: string | null
   topics: string[]
+  description: string | null
   stargazers_count: number
   fork: boolean
   private: boolean
@@ -33,7 +36,7 @@ const topic = (repo: GitHubRepo, ...values: string[]) =>
 const nameIncludes = (repo: GitHubRepo, ...fragments: string[]) =>
   fragments.some((fragment) => repo.name.toLowerCase().includes(fragment.toLowerCase()))
 
-const TECH_RULES: TechRule[] = [
+export const TECH_RULES: TechRule[] = [
   {
     id: 'typescript',
     name: 'TypeScript',
@@ -53,14 +56,14 @@ const TECH_RULES: TechRule[] = [
     name: 'Next.js',
     category: 'web',
     icon: '/tech/nextdotjs.svg',
-    matches: (repo) => topic(repo, 'nextjs') || nameIncludes(repo, 'next'),
+    matches: (repo) => topic(repo, 'nextjs') || nameIncludes(repo, 'nextjs', 'next-js'),
   },
   {
     id: 'react',
     name: 'React',
     category: 'web',
     icon: '/tech/react.svg',
-    matches: (repo) => topic(repo, 'react') || nameIncludes(repo, 'react'),
+    matches: (repo) => topic(repo, 'react') && !topic(repo, 'react-native'),
   },
   {
     id: 'vue',
@@ -155,11 +158,22 @@ const TECH_RULES: TechRule[] = [
     matches: (repo) => topic(repo, 'firebase') || nameIncludes(repo, 'firebase'),
   },
   {
-    id: 'swift',
-    name: 'Swift',
-    category: 'mobile',
-    icon: '/tech/swift.svg',
-    matches: (repo) => repo.language === 'Swift' || topic(repo, 'swift', 'ios'),
+    id: 'gcp',
+    name: 'Google Cloud',
+    category: 'platform',
+    icon: '/tech/googlecloud.svg',
+    matches: (repo) =>
+      topic(repo, 'gcp', 'google-cloud', 'googlecloud')
+      || nameIncludes(repo, 'gcp', 'google-cloud'),
+  },
+  {
+    id: 'cloudflare',
+    name: 'Cloudflare',
+    category: 'platform',
+    icon: '/tech/cloudflare.svg',
+    matches: (repo) =>
+      topic(repo, 'cloudflare', 'cloudflare-workers', 'wrangler')
+      || nameIncludes(repo, 'cloudflare', 'wrangler'),
   },
   {
     id: 'kotlin',
@@ -203,13 +217,50 @@ const TECH_RULES: TechRule[] = [
     icon: '/tech/docker.svg',
     matches: (repo) => repo.language === 'Dockerfile' || topic(repo, 'docker'),
   },
+  {
+    id: 'openstreetmap',
+    name: 'OpenStreetMap',
+    category: 'web',
+    icon: '/tech/openstreetmap.svg',
+    matches: (repo) =>
+      topic(repo, 'openstreetmap', 'osm')
+      || nameIncludes(repo, 'room-tba', 'room_tba', 'saan-ang-room'),
+  },
+  {
+    id: 'discord',
+    name: 'Discord',
+    category: 'platform',
+    icon: '/tech/discord.svg',
+    matches: (repo) =>
+      topic(repo, 'discord', 'discord-bot', 'discordjs')
+      || nameIncludes(repo, 'discord', 'comskies'),
+  },
 ]
+
+export function countProjectsByCategory(repos: GitHubRepo[]) {
+  const projects = filterPortfolioRepos(repos)
+  const totals = { web: 0, mobile: 0, platform: 0 }
+
+  for (const repo of projects) {
+    const categories = new Set<TechCategory>()
+    for (const rule of TECH_RULES) {
+      if (rule.matches(repo)) categories.add(rule.category)
+    }
+    for (const category of categories) {
+      totals[category] += 1
+    }
+  }
+
+  return {
+    ...totals,
+    totalProjects: projects.length,
+  }
+}
 
 export function detectTechStack(repos: GitHubRepo[]): DetectedTech[] {
   const detected = new Map<string, DetectedTech>()
 
-  for (const repo of repos) {
-    if (repo.fork || repo.private) continue
+  for (const repo of filterPortfolioRepos(repos)) {
 
     for (const rule of TECH_RULES) {
       if (!rule.matches(repo)) continue
@@ -217,7 +268,7 @@ export function detectTechStack(repos: GitHubRepo[]): DetectedTech[] {
       const existing = detected.get(rule.id)
       if (existing) {
         existing.repoCount += 1
-        if (existing.repoNames.length < 4) {
+        if (!existing.repoNames.includes(repo.name)) {
           existing.repoNames.push(repo.name)
         }
         continue
