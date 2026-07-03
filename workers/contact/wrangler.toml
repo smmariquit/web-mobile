@@ -1,0 +1,11 @@
+name = "web-mobile-contact"
+main = "src/index.ts"
+compatibility_date = "2025-07-01"
+
+# Route on your zone, e.g. contact.stimmie.dev or web.stimmie.dev/api/contact via worker route
+# routes = [{ pattern = "contact.stimmie.dev", custom_domain = true }]
+
+[vars]
+CONTACT_TO = "semariquit@gmail.com"
+CONTACT_FROM = "portfolio@stimmie.dev"
+ALLOWED_ORIGINS = "https://web.stimmie.dev,http://localhost:3000"
