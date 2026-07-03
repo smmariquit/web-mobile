@@ -1,7 +1,9 @@
 <template>
   <div class="app-shell">
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
     <header class="site-header">
-      <NuxtLink to="/" class="site-header__brand">
+      <NuxtLink to="/" class="site-header__brand" aria-label="Simonee's web portfolio, home">
         <span class="site-header__name">Simonee's web portfolio</span>
       </NuxtLink>
 
@@ -17,11 +19,6 @@
           {{ item.label }}
         </NuxtLink>
       </nav>
-
-      <div class="site-header__actions">
-        <a href="https://cal.com/simonee" target="_blank" rel="noopener" class="btn btn--line btn--sm">Book a call</a>
-        <NuxtLink to="/contact" class="btn btn--solid btn--sm">Send brief</NuxtLink>
-      </div>
     </header>
 
     <nav class="dock-nav" aria-label="Mobile primary">
@@ -94,7 +91,7 @@
       </NuxtLink>
     </nav>
 
-    <main class="main">
+    <main id="main-content" class="main" tabindex="-1">
       <NuxtRouteAnnouncer />
       <slot />
     </main>

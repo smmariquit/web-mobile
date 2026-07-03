@@ -9,25 +9,26 @@
       show-stats-link
     />
 
-    <TrustSignalsPanel class="home-trust" :narrative="engagement?.trustNarrative" />
+    <div class="page-stack">
+      <TrustSignalsPanel :narrative="engagement?.trustNarrative" />
 
-    <HomeFeaturedWork :projects="featuredProjectsForList" class="section-block" />
+      <HomeFeaturedWork :projects="featuredProjectsForList" />
 
-    <section class="home-about section-block">
-      <div class="home-about__copy">
-        <p class="kicker">About</p>
-        <p class="body-sm measure">
-          {{ profile?.profile?.aboutParagraph1 ?? profile?.profile?.aboutLede }}
-        </p>
-        <NuxtLink to="/about" class="home-about__link caption">Read more about me</NuxtLink>
-      </div>
-    </section>
+      <section class="home-about">
+        <div class="home-about__copy">
+          <p class="kicker">About</p>
+          <p class="body-sm measure">
+            {{ profile?.profile?.aboutParagraph1 ?? profile?.profile?.aboutLede }}
+          </p>
+          <NuxtLink to="/about" class="btn btn--line btn--sm">Read more about me</NuxtLink>
+        </div>
+      </section>
 
-    <HomeCta
-      class="section-block"
-      :web-from="pricing?.services?.[0]?.startingAt.label"
-      :mobile-from="pricing?.services?.[1]?.startingAt.label"
-    />
+      <HomeCta
+        :web-from="pricing?.services?.[0]?.startingAt.label"
+        :mobile-from="pricing?.services?.[1]?.startingAt.label"
+      />
+    </div>
   </div>
 </template>
 
@@ -89,23 +90,11 @@ const credibilityLine = computed(() => {
 </script>
 
 <style scoped>
-.home-trust {
-  padding-top: 1.25rem;
-  padding-bottom: 1.5rem;
-  border-top: 1px solid var(--border-hairline);
-}
-
 .home-about__copy {
   max-width: var(--measure-prose);
 }
 
-.home-about__link {
-  display: inline-block;
+.home-about__copy .btn {
   margin-top: 0.75rem;
-  color: var(--c-accent);
-}
-
-.home-about__link:hover {
-  text-decoration: underline;
 }
 </style>

@@ -30,7 +30,8 @@ export function stackRepos(repoNames: string[]): StackRepo[] {
 export const CURATED_TECH_REPOS: Record<string, string[]> = {
   rest: ['web-mobile', 'room-tba', 'gradesim', 'bus-ticketing-app'],
   openstreetmap: ['room-tba'],
-  discord: ['comskies-bot', 'discord-bot-host'],
+  discordpy: ['comskies-bot'],
+  discordjs: ['discord-bot-host'],
   'github-api': ['web-mobile'],
 }
 
@@ -47,7 +48,18 @@ export const CURATED_STACK_GROUPS: StackGroup[] = [
         icon: '/tech/openstreetmap.svg',
         repos: stackRepos(CURATED_TECH_REPOS.openstreetmap),
       },
-      { id: 'discord', name: 'Discord', icon: '/tech/discord.svg', repos: stackRepos(CURATED_TECH_REPOS.discord) },
+      {
+        id: 'discordpy',
+        name: 'Discordpy',
+        icon: '/tech/discordpy.svg',
+        repos: stackRepos(CURATED_TECH_REPOS.discordpy),
+      },
+      {
+        id: 'discordjs',
+        name: 'Discordjs',
+        icon: '/tech/discordjs.svg',
+        repos: stackRepos(CURATED_TECH_REPOS.discordjs),
+      },
       {
         id: 'github-api',
         name: 'GitHub API',

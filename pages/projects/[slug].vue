@@ -1,8 +1,8 @@
 <template>
   <div v-if="project" class="page">
-    <NuxtLink to="/projects" class="back caption">← All projects</NuxtLink>
+    <NuxtLink to="/projects" class="btn btn--line btn--sm back">← All projects</NuxtLink>
 
-    <header class="page-head" style="border: none; padding-bottom: 0;">
+    <header class="page-head page-head--plain">
       <div class="detail-head">
         <div>
           <div class="detail-head__tags">
@@ -42,7 +42,7 @@
       :fallback-image="project.images?.[0]"
       :live-url="project.links.live"
       :github-url="project.links.github"
-      :hardware="project.category === 'mobile' && !project.previews?.desktop"
+      :hardware="project.slug === 'bus-ticketing-app'"
       class="detail-preview"
     />
 
@@ -52,7 +52,7 @@
           <p class="kicker">Case study</p>
           <p class="lede detail-copy">{{ project.situation }}</p>
 
-          <div class="case-flow">
+          <div class="case-flow divide-rows divide-rows--lg">
             <section
               v-for="section in caseSections"
               :key="section.title"
@@ -63,7 +63,7 @@
             </section>
           </div>
 
-          <p v-if="project.postmortem" class="body-sm case-study__post">
+          <p v-if="project.postmortem" class="body-sm case-study__post rule-top">
             <strong>Postmortem:</strong> {{ project.postmortem }}
           </p>
           <p class="body-sm detail-impact">
@@ -80,7 +80,13 @@
         </section>
 
         <div v-if="extraImages.length" class="gallery">
-          <img v-for="img in extraImages" :key="img" :src="img" alt="" loading="lazy" />
+          <img
+            v-for="(img, index) in extraImages"
+            :key="img"
+            :src="img"
+            :alt="`${project.title} screenshot ${index + 1}`"
+            loading="lazy"
+          />
         </div>
       </article>
 
@@ -103,7 +109,7 @@
             :href="project.links.github"
             target="_blank"
             rel="noopener"
-            class="repo-link mono caption"
+            class="text-link mono caption repo-link"
           >
             {{ repoLabel }}
           </a>
@@ -197,8 +203,6 @@ useHead({
   margin-bottom: 1.5rem;
 }
 
-.back:hover { color: var(--accent); }
-
 .detail-head {
   display: flex;
   justify-content: space-between;
@@ -250,14 +254,11 @@ useHead({
 }
 
 .case-flow {
-  display: grid;
-  gap: 1.1rem;
-  margin-top: 1.35rem;
+  margin-top: var(--space-row-lg);
 }
 
-.case-flow__section {
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-hairline);
+.case-flow > :first-child {
+  padding-top: 0;
 }
 
 .case-flow__section .body-sm {
@@ -265,9 +266,6 @@ useHead({
 }
 
 .case-study__post {
-  margin-top: 1.25rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-hairline);
   color: var(--text-secondary);
 }
 
@@ -310,12 +308,7 @@ useHead({
 .repo-link {
   display: inline-block;
   margin-top: 0.75rem;
-  color: var(--accent);
   word-break: break-all;
-}
-
-.repo-link:hover {
-  text-decoration: underline;
 }
 
 .detail-nav {
@@ -348,7 +341,6 @@ useHead({
     padding-left: 0;
     padding-top: 1.5rem;
     border-left: none;
-    border-top: 1px solid var(--border-hairline);
   }
 }
 </style>

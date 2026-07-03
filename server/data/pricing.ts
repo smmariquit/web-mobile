@@ -18,6 +18,7 @@ export interface StackIcon {
 export interface ServicePricing {
   id: string
   title: string
+  summary: string
   description: string
   scopeNote: string
   stack: StackIcon[]
@@ -29,16 +30,17 @@ export const HOURLY_RATE: PricePoint & { note: string } = {
   usd: 25,
   php: 1400,
   label: '$25/hr',
-  note: 'Useful for code review, build fixes, deployment checks, or small scoped tasks after the main quote is settled.',
+  note: 'For code review, build fixes, or deployment checks after the main quote is settled.',
 }
 
 export const PRICING_NOTE =
-  'Web projects start at $400, mobile work starts at $1,500, and extra scope is billed at $25/hr only after we agree on the change.'
+  'Floors by project type. Final quote follows your brief and complexity band.'
 
 export const SERVICE_PRICING: ServicePricing[] = [
   {
     id: 'web',
     title: 'Web apps',
+    summary: 'Static site, cached edge app, or small database-backed MVP.',
     description:
       'From a static launch page to an app with live data. I choose the simplest hosting and data model that still fits your users.',
     scopeNote: 'Static site, cached edge app, or small database-backed MVP scoped before build.',
@@ -58,6 +60,7 @@ export const SERVICE_PRICING: ServicePricing[] = [
   {
     id: 'mobile',
     title: 'Mobile apps',
+    summary: 'Single-platform app first. POS hardware and store release quoted separately.',
     description:
       'Offline-first mobile work for schedule tools, maps, or POS hardware where network and device limits shape the design.',
     scopeNote: 'Single-platform app first. Custom POS hardware and store release work are quoted separately.',
@@ -73,6 +76,7 @@ export const SERVICE_PRICING: ServicePricing[] = [
   {
     id: 'extension',
     title: 'Browser extensions',
+    summary: 'One browser, Manifest V3 build, store listing help included.',
     description:
       'Chrome or Firefox extensions for browser-native workflows, with local data kept on device when a server is unnecessary.',
     scopeNote: 'One browser first, Manifest V3 build, store listing help included.',

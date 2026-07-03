@@ -1,19 +1,21 @@
 <template>
   <section class="home-cta" aria-labelledby="home-cta-title">
-    <div class="home-cta__inner">
-      <div class="home-cta__copy">
-        <p class="kicker">Hire</p>
-        <h2 id="home-cta-title" class="title-lg">
-          Web from {{ webPrice }}. Mobile from {{ mobilePrice }}.
-        </h2>
-        <p class="body-sm measure">
-          Send the brief, then I map the scope to a static site, cached app, or offline-capable build.
-          The quote explains what we are leaving out and why.
-        </p>
-      </div>
-      <div class="home-cta__actions btn-row">
-        <NuxtLink to="/contact" class="btn btn--solid">Send brief</NuxtLink>
-        <NuxtLink to="/hire" class="btn btn--line">Read the budget stories</NuxtLink>
+    <div class="home-cta__panel">
+      <div class="home-cta__inner">
+        <div class="home-cta__copy">
+          <p class="kicker">Hire</p>
+          <h2 id="home-cta-title" class="title-lg">
+            Web from {{ webPrice }}. Mobile from {{ mobilePrice }}.
+          </h2>
+          <p class="body-sm measure">
+            Send the brief, then I map the scope to a static site, cached app, or offline-capable build.
+            The quote explains what we are leaving out and why.
+          </p>
+        </div>
+        <div class="home-cta__actions btn-row">
+          <NuxtLink to="/contact" class="btn btn--solid">Send brief</NuxtLink>
+          <NuxtLink to="/hire" class="btn btn--line">See how pricing works</NuxtLink>
+        </div>
       </div>
     </div>
   </section>
@@ -40,7 +42,7 @@ const mobilePrice = computed(() => priceOnly(props.mobileFrom))
 </script>
 
 <style scoped>
-.home-cta {
+.home-cta__panel {
   padding: clamp(1.75rem, 4vw, 2.5rem);
   background: var(--bg-surface);
   border: 1px solid var(--border-heavy);

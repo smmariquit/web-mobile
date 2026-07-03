@@ -154,8 +154,7 @@ function featuredItem(section: Section) {
   flex-direction: column;
   gap: 0.45rem;
   min-height: 100%;
-  padding: 0.75rem 0 0;
-  border-top: 1px solid var(--c-line);
+  padding-top: 0.75rem;
   color: inherit;
 }
 
@@ -268,7 +267,9 @@ a.stimmie-pillar:hover .stimmie-pillar__title {
 
 .stimmie-map__more a {
   color: var(--c-text-soft);
-  font-weight: 400;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
 .stimmie-map__more a:hover {

@@ -2,50 +2,43 @@ export interface EngagementPhase {
   id: string
   title: string
   detail: string
-  deliverable: string
 }
 
 export interface CoordinationChannel {
   title: string
   detail: string
   href?: string
-  icon?: string
+  icon: 'call' | 'email' | 'github' | 'linkedin' | 'timezone'
+}
+
+export interface DoneCriterion {
+  label: string
+  icon: 'scope' | 'staging' | 'responsive' | 'checks' | 'deploy'
 }
 
 export const TRUST_NARRATIVE =
-  'We agree on scope and price in writing before I code. Each week I send a test link until you approve launch. You own the repo, I work from UTC+8 with US overlap, and extra work only happens through a documented scope update.'
-
-export const SCOPE_EXAMPLE = [
-  'Features: login, appointment calendar, email reminders.',
-  'Exclude: video consultation, payments, and analytics unless added later.',
-  'Constraints: budget under $1,500, 3-week deadline, spotty clinic Wi-Fi.',
-  'Tech: static frontend, serverless booking route, small database, deploy runbook.',
-]
+  'Scope and price in writing before I code. Weekly staging links, feedback in GitHub, repo in your name at launch.'
 
 export const HIRE_PROCESS: EngagementPhase[] = [
   {
     id: 'brief',
     title: 'Brief',
-    detail: 'Email or the form. What you need, deadline, rough budget.',
-    deliverable: 'Reply within 1 to 2 days',
+    detail: 'Form or email. What you need, when you need it, and your budget range.',
   },
   {
     id: 'scope',
-    title: 'Scope + quote',
-    detail: 'One doc: goal, features, timeline, stack, budget, and what we are not building.',
-    deliverable: 'Signed scope before code',
+    title: 'Scope and quote',
+    detail: 'A short doc: what we build, what we skip, timeline, and a fixed price.',
   },
   {
     id: 'build',
     title: 'Build',
-    detail: 'Staging URL each week until you approve launch.',
-    deliverable: 'Changes only through scope updates',
+    detail: 'Staging link each week. Feedback in GitHub issues and PRs.',
   },
   {
     id: 'launch',
     title: 'Launch',
-    detail: 'Repo in your GitHub, deploy notes, and a walkthrough.',
-    deliverable: 'Handoff so nothing depends on memory',
+    detail: 'Repo in your GitHub, deploy notes, and a walkthrough if you want one.',
   },
 ]
 
@@ -54,33 +47,37 @@ export const COORDINATION: CoordinationChannel[] = [
     title: 'Book a call',
     detail: 'cal.com/simonee, 30 min',
     href: 'https://cal.com/simonee',
+    icon: 'call',
   },
   {
     title: 'Email',
     detail: 'semariquit@gmail.com',
     href: 'mailto:semariquit@gmail.com',
+    icon: 'email',
   },
   {
     title: 'Day-to-day',
     detail: 'Issues and PRs on GitHub',
     href: 'https://github.com/smmariquit',
-    icon: '/tech/github.svg',
+    icon: 'github',
   },
   {
     title: 'LinkedIn',
     detail: 'linkedin.com/in/stimmie',
     href: 'https://www.linkedin.com/in/stimmie',
+    icon: 'linkedin',
   },
   {
     title: 'Timezone',
     detail: 'Philippines (UTC+8). US morning and evening overlap can work.',
+    icon: 'timezone',
   },
 ]
 
-export const DEFINITION_OF_DONE = [
-  'Scope signed before build',
-  'Staging signed off before prod',
-  'Responsive on agreed breakpoints',
-  'Automated checks pass before launch',
-  'Deploy notes included',
+export const DEFINITION_OF_DONE: DoneCriterion[] = [
+  { label: 'Scope signed before build', icon: 'scope' },
+  { label: 'Staging signed off before prod', icon: 'staging' },
+  { label: 'Responsive on agreed breakpoints', icon: 'responsive' },
+  { label: 'Automated checks pass before launch', icon: 'checks' },
+  { label: 'Deploy notes included', icon: 'deploy' },
 ]

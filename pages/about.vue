@@ -16,30 +16,42 @@
             </p>
             <p class="body-sm measure about-writing">
               {{ profile?.writing?.summary }}
-            </p>
-            <div class="about-links">
-              <a :href="profile?.profile?.resumeUrl" target="_blank" rel="noopener" class="about-link-chip">Resume</a>
-              <a :href="profile?.profile?.linkedinUrl" target="_blank" rel="noopener" class="about-link-chip">LinkedIn</a>
-              <a :href="profile?.profile?.careerUrl" target="_blank" rel="noopener" class="about-link-chip">Career</a>
               <a
-                v-for="link in profile?.writing?.links ?? []"
-                :key="link.href"
-                :href="link.href"
+                :href="profile?.profile?.personalSiteUrl ?? 'https://stimmie.dev'"
                 target="_blank"
                 rel="noopener"
-                class="about-link-chip"
+                class="text-link"
+              >stimmie.dev ↗</a>
+            </p>
+            <div class="about-links">
+              <a :href="profile?.profile?.resumeUrl" target="_blank" rel="noopener" class="btn btn--line btn--sm">Resume</a>
+              <a :href="profile?.profile?.linkedinUrl" target="_blank" rel="noopener" class="btn btn--line btn--sm">LinkedIn</a>
+              <a
+                :href="profile?.profile?.personalSiteUrl ?? 'https://stimmie.dev'"
+                target="_blank"
+                rel="noopener"
+                class="btn btn--line btn--sm"
               >
-                {{ link.label }}
+                stimmie.dev
               </a>
             </div>
           </div>
         </div>
       </header>
 
-      <div class="about-flow">
-        <section class="about-panel section-block">
+      <div class="about-flow page-stack">
+        <section class="about-stack">
+          <StackPanel
+            prominent
+            :groups="stackGroups"
+            :technologies="stack?.technologies ?? []"
+          />
+        </section>
+
+        <div class="about-grid">
+        <section class="about-panel">
           <p class="kicker">Experience</p>
-          <ul class="exp-list">
+          <ul class="exp-list divide-rows divide-rows--lg">
             <li v-for="exp in profile?.experience ?? []" :key="`${exp.title}-${exp.org}`" class="exp-list__item">
               <p class="mono caption exp-list__period">{{ exp.period }}</p>
               <div class="exp-list__copy">
@@ -49,7 +61,7 @@
                   :href="exp.href"
                   target="_blank"
                   rel="noopener"
-                  class="body-sm org-link"
+                  class="body-sm text-link org-link"
                 >{{ exp.org }}</a>
                 <p v-else class="body-sm org-link">{{ exp.org }}</p>
                 <p class="body-sm">{{ exp.description }}</p>
@@ -58,14 +70,14 @@
           </ul>
         </section>
 
-        <section class="about-panel section-block">
+        <section class="about-panel">
           <div class="panel__head talks-head">
             <p class="kicker">Talks</p>
-            <a :href="profile?.profile?.talksUrl" target="_blank" rel="noopener" class="caption profile-link">
+            <a :href="profile?.profile?.talksUrl" target="_blank" rel="noopener" class="btn btn--line btn--sm">
               All {{ talks?.totalAudience?.toLocaleString() }}+ reached ↗
             </a>
           </div>
-          <ul class="talk-cards">
+          <ul class="talk-cards divide-rows divide-rows--lg">
             <li v-for="talk in talks?.featured ?? []" :key="talk.slug">
               <a :href="talk.url" target="_blank" rel="noopener" class="talk-card">
                 <div class="talk-card__head">
@@ -80,38 +92,7 @@
             </li>
           </ul>
         </section>
-
-        <div class="section-block">
-          <StackPanel
-            :groups="stackGroups"
-            :technologies="stack?.technologies ?? []"
-          />
         </div>
-
-        <div class="section-block">
-          <StimmieMapPanel
-            :sections="capabilities?.sections"
-            :directory="capabilities?.directory"
-            :max-items="4"
-          />
-        </div>
-
-        <section class="about-panel section-block">
-          <p class="kicker">How I ship</p>
-          <div class="ship-pillars">
-            <article v-for="(pillar, i) in engineering?.pillars ?? []" :key="pillar.id" class="ship-pillar">
-              <span class="ship-pillar__index mono">{{ String(i + 1).padStart(2, '0') }}</span>
-              <h3 class="title-sm">{{ pillar.title }}</h3>
-              <p class="body-sm ship-pillar__summary">{{ pillar.summary }}</p>
-              <ul class="ship-pillar__links">
-                <li v-for="hit in pillar.highlights.slice(0, 2)" :key="hit.url">
-                  <a :href="hit.url" target="_blank" rel="noopener">{{ hit.title }}</a>
-                  <span class="caption mono">{{ hit.repo }}</span>
-                </li>
-              </ul>
-            </article>
-          </div>
-        </section>
       </div>
     </div>
 </template>
@@ -119,32 +100,21 @@
 <script setup lang="ts">
 useHead({ title: 'About' })
 
-const [{ data: stack }, { data: engineering }, { data: profile }, { data: talks }, { data: capabilities }] = await Promise.all([
+const [{ data: stack }, { data: profile }, { data: talks }] = await Promise.all([
   useFetch('/api/stack'),
-  useFetch('/api/engineering'),
   useFetch('/api/profile'),
   useFetch('/api/talks'),
-  useFetch('/api/capabilities'),
 ])
 
 const stackGroups = computed(() => stack.value?.groups ?? [])
 </script>
 
 <style scoped>
-.about-flow {
+.about-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2.5rem;
   align-items: start;
-}
-
-.about-flow > .section-block:nth-child(n + 3) {
-  grid-column: 1 / -1;
-}
-
-.about-flow > .section-block:nth-child(-n + 2) {
-  border-top: none;
-  padding-top: 0;
 }
 
 .about-intro {
@@ -159,46 +129,23 @@ const stackGroups = computed(() => stack.value?.groups ?? [])
 .about-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem 1rem;
+  gap: 0.6rem;
   margin-top: 1rem;
 }
 
-.about-link-chip {
-  font-size: var(--fs-caption);
-  color: var(--accent);
-}
-
-.about-link-chip:hover {
-  text-decoration: underline;
-}
-
-.profile-link {
-  color: var(--accent);
-}
-
-.profile-link:hover {
-  text-decoration: underline;
+.about-panel > .kicker {
+  margin-bottom: var(--space-row);
 }
 
 .org-link {
-  color: var(--accent);
   display: block;
   margin: 0.1rem 0 0.25rem;
-}
-
-.exp-list,
-.talk-cards {
-  margin: 0.75rem 0 0;
-  padding: 0;
-  list-style: none;
 }
 
 .exp-list__item {
   display: grid;
   grid-template-columns: 7.5rem minmax(0, 1fr);
   gap: 1rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--border-hairline);
 }
 
 .exp-list__period {
@@ -207,8 +154,6 @@ const stackGroups = computed(() => stack.value?.groups ?? [])
 
 .talk-card {
   display: block;
-  padding: 0.85rem 0;
-  border-bottom: 1px solid var(--border-hairline);
   color: inherit;
 }
 
@@ -232,42 +177,8 @@ const stackGroups = computed(() => stack.value?.groups ?? [])
   color: var(--text-secondary);
 }
 
-.ship-pillars {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5rem;
-  margin-top: 0.75rem;
-}
-
-.ship-pillar {
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--border-hairline);
-}
-
-.ship-pillar__index {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  color: var(--accent);
-}
-
-.ship-pillar__links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  margin-top: 0.5rem;
-}
-
-.ship-pillar__links a {
-  font-size: var(--fs-caption);
-  color: var(--accent);
-}
-
 @media (max-width: 900px) {
-  .about-flow {
-    grid-template-columns: 1fr;
-  }
-
-  .ship-pillars {
+  .about-grid {
     grid-template-columns: 1fr;
   }
 }

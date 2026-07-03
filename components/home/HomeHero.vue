@@ -23,12 +23,10 @@
         </template>
       </p>
 
-      <div class="home-hero__actions">
-        <div class="btn-row">
-          <NuxtLink to="/contact" class="btn btn--solid">Send brief</NuxtLink>
-          <a href="https://cal.com/simonee" target="_blank" rel="noopener" class="btn btn--line">Book a call</a>
-        </div>
-        <NuxtLink to="/hire" class="home-hero__rates caption">See rates</NuxtLink>
+      <div class="btn-row home-hero__actions">
+        <NuxtLink to="/contact" class="btn btn--solid">Send brief</NuxtLink>
+        <a href="https://cal.com/simonee" target="_blank" rel="noopener" class="btn btn--line">Book a call</a>
+        <NuxtLink to="/hire" class="btn btn--line">See rates</NuxtLink>
       </div>
     </div>
 
@@ -76,7 +74,7 @@ defineProps<{
   grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
   gap: clamp(1.5rem, 4vw, 3rem);
   align-items: center;
-  padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  padding-bottom: var(--space-section);
 }
 
 .home-hero__intro {
@@ -125,19 +123,7 @@ defineProps<{
 }
 
 .home-hero__actions {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.55rem;
   margin-top: 1rem;
-}
-
-.home-hero__rates {
-  color: var(--text-muted);
-}
-
-.home-hero__rates:hover {
-  color: var(--c-accent);
 }
 
 .home-hero__spotlight {
@@ -146,6 +132,12 @@ defineProps<{
   gap: 0.75rem;
   color: inherit;
   text-decoration: none;
+  border-radius: var(--r-md);
+}
+
+.home-hero__spotlight:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
 }
 
 .home-hero__spotlight:hover .home-hero__spotlight-title,

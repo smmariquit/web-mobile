@@ -1,7 +1,7 @@
 <template>
-  <section class="trust-signals" :class="{ 'trust-signals--compact': compact }">
+  <section class="trust-signals" :class="{ 'trust-signals--compact': compact }" aria-label="How we work together">
     <p class="trust-signals__copy">{{ narrative || fallbackNarrative }}</p>
-    <NuxtLink v-if="!compact" to="/hire" class="trust-signals__link caption">
+    <NuxtLink v-if="!compact" to="/hire" class="btn btn--line btn--sm">
       How we work
     </NuxtLink>
   </section>
@@ -34,13 +34,8 @@ const fallbackNarrative =
   color: var(--text-secondary);
 }
 
-.trust-signals__link {
+.trust-signals .btn {
   align-self: flex-start;
   margin-top: 0.25rem;
-  color: var(--c-accent);
-}
-
-.trust-signals__link:hover {
-  text-decoration: underline;
 }
 </style>

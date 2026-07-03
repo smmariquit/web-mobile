@@ -2,16 +2,21 @@
   <section class="featured-work" aria-labelledby="featured-title">
     <div class="featured-work__head">
       <h2 id="featured-title" class="title-lg">Selected projects</h2>
-      <NuxtLink to="/projects" class="featured-work__all caption">View all</NuxtLink>
+      <NuxtLink to="/projects" class="btn btn--line btn--sm">View all</NuxtLink>
     </div>
 
-    <ul class="featured-work__list">
+    <ul class="featured-work__list divide-rows divide-rows--lg">
       <li v-for="project in projects" :key="project.slug" class="featured-work__item">
-        <NuxtLink :to="`/projects/${project.slug}`" class="featured-work__link">
+        <NuxtLink
+          :to="`/projects/${project.slug}`"
+          class="featured-work__link"
+          :class="{ 'featured-work__link--phone': isPhonePreview(project) }"
+        >
           <div
             class="featured-work__media"
             :class="{
-              'featured-work__media--device': isDevicePreview(project),
+              'featured-work__media--device': isHardwarePreview(project),
+              'featured-work__media--phone': isPhonePreview(project),
               'featured-work__media--app': project.category === 'web',
             }"
           >
@@ -30,7 +35,7 @@
             <h3 class="title-md">{{ project.title }}</h3>
             <p class="body-sm">{{ project.subtitle }}</p>
             <p class="featured-work__desc body-sm">{{ project.description }}</p>
-            <span class="featured-work__more">View case study</span>
+            <span class="featured-work__more text-link">View case study</span>
           </div>
         </NuxtLink>
       </li>
@@ -64,8 +69,12 @@ function categoryLabel(category: string) {
   return map[category] ?? category
 }
 
-function isDevicePreview(project: Project) {
-  return project.category === 'mobile' && !project.previews?.desktop
+function isHardwarePreview(project: Project) {
+  return project.slug === 'bus-ticketing-app'
+}
+
+function isPhonePreview(project: Project) {
+  return project.category === 'mobile' && !project.previews?.desktop && !isHardwarePreview(project)
 }
 </script>
 
@@ -75,40 +84,25 @@ function isDevicePreview(project: Project) {
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.25rem;
-}
-
-.featured-work__all {
-  color: var(--c-accent);
-}
-
-.featured-work__all:hover {
-  text-decoration: underline;
-}
-
-.featured-work__list {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--c-line);
-}
-
-.featured-work__item {
-  border-bottom: 1px solid var(--c-line);
+  margin-bottom: var(--space-row);
 }
 
 .featured-work__link {
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
   gap: clamp(1rem, 3vw, 2rem);
-  padding: 1.5rem 0;
+  align-items: start;
   color: inherit;
+  border-radius: var(--r-md);
+}
+
+.featured-work__link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
 }
 
 .featured-work__link:hover .featured-work__more {
-  color: var(--c-accent);
+  color: var(--accent-hover);
 }
 
 .featured-work__media {
@@ -120,32 +114,44 @@ function isDevicePreview(project: Project) {
 
 .featured-work__media :deep(.preview-image),
 .featured-work__media :deep(img) {
+  display: block;
   width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
+  height: auto;
+}
+
+.featured-work__media--phone {
+  background: #0a0a0c;
+}
+
+.featured-work__media--phone :deep(img) {
+  object-fit: contain;
   object-position: top center;
+}
+
+.featured-work__link--phone {
+  grid-template-columns: minmax(0, 1fr) clamp(13rem, 22vw, 17.5rem);
+  align-items: center;
+}
+
+.featured-work__link--phone .featured-work__body {
+  order: 1;
+}
+
+.featured-work__link--phone .featured-work__media {
+  order: 2;
+  justify-self: end;
+  width: 100%;
+}
+
+.featured-work__link--phone .featured-work__media--phone {
+  max-width: none;
 }
 
 .featured-work__media--device {
   background: var(--bg-primary);
 }
 
-.featured-work__media--device :deep(.preview-image),
-.featured-work__media--device :deep(img) {
-  aspect-ratio: auto;
-  height: auto;
-  max-height: 22rem;
-  object-fit: contain;
-  object-position: center;
-  background: var(--bg-primary);
-}
-
-.featured-work__media--app :deep(.preview-image),
-.featured-work__media--app :deep(img) {
-  aspect-ratio: auto;
-  height: auto;
-  object-fit: contain;
-  object-position: center;
+.featured-work__media--app {
   background: #fff;
 }
 
@@ -153,7 +159,6 @@ function isDevicePreview(project: Project) {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  justify-content: center;
 }
 
 .featured-work__meta {
@@ -171,13 +176,21 @@ function isDevicePreview(project: Project) {
 .featured-work__more {
   margin-top: 0.65rem;
   font-size: var(--fs-caption);
-  font-weight: 600;
-  color: var(--c-text);
 }
 
 @media (max-width: 768px) {
   .featured-work__link {
     grid-template-columns: 1fr;
+  }
+
+  .featured-work__link--phone .featured-work__body,
+  .featured-work__link--phone .featured-work__media {
+    order: unset;
+  }
+
+  .featured-work__link--phone .featured-work__media {
+    justify-self: center;
+    max-width: min(15rem, 78vw);
   }
 }
 </style>

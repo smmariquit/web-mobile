@@ -1,7 +1,7 @@
 <template>
   <div class="page">
       <header class="page-head">
-        <p class="kicker">02 · Projects</p>
+        <p class="kicker">Projects</p>
         <div class="page-head__row">
           <h1 class="display">Projects with the reasoning left in.</h1>
         </div>
@@ -10,12 +10,14 @@
         </p>
       </header>
 
-      <div class="filters">
+      <div class="filters" role="group" aria-label="Filter by project type">
         <button
           v-for="filter in filters"
           :key="filter.value"
+          type="button"
           class="filter"
           :class="{ 'is-active': activeFilter === filter.value }"
+          :aria-pressed="activeFilter === filter.value"
           @click="activeFilter = filter.value"
         >
           {{ filter.label }}
@@ -64,10 +66,11 @@ const filtered = computed(() => {
   min-height: 44px;
   padding: 0.5rem 0.85rem;
   font-size: var(--fs-caption);
+  font-weight: 600;
   border: 1px solid var(--border-hairline);
   border-radius: var(--r-sm);
   color: var(--text-muted);
-  background: transparent;
+  background: #fff;
 }
 
 .filter.is-active,
@@ -77,10 +80,26 @@ const filtered = computed(() => {
   background: var(--bg-surface);
 }
 
+.filter.is-active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+.filter:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 .project-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 0.75rem;
-  align-items: stretch;
+  column-width: 17.5rem;
+  column-gap: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .project-grid {
+    column-width: auto;
+    columns: 1;
+  }
 }
 </style>

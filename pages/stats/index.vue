@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <header class="page-head">
-      <p class="kicker">06 · Stats</p>
+      <p class="kicker">Stats</p>
       <div class="page-head__row">
         <h1 class="display">Live traffic across my sites.</h1>
       </div>
@@ -10,7 +10,7 @@
       </p>
     </header>
 
-    <AnalyticsDashboard />
+    <AnalyticsDashboard headless />
   </div>
 </template>
 

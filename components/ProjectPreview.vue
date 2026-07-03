@@ -83,7 +83,7 @@
         rel="noopener"
         class="btn btn--solid"
       >
-        Visit live site
+        Visit live site<span class="sr-only"> (opens in new tab)</span>
       </a>
       <a
         v-if="githubUrl"
@@ -92,7 +92,7 @@
         rel="noopener"
         class="btn btn--line"
       >
-        View repo
+        View repo<span class="sr-only"> (opens in new tab)</span>
       </a>
     </div>
   </section>
@@ -195,15 +195,22 @@ const liveUrl = computed(() => {
 .preview__toggle {
   padding: 0.35rem 0.75rem;
   font-size: var(--fs-caption);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--c-text-muted);
+  border: 1px solid transparent;
   border-radius: 3px;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.preview__toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .preview__toggle.is-active {
   background: var(--c-surface-2);
   color: var(--c-text);
+  border-color: var(--c-line);
 }
 
 .preview__toggle:hover:not(.is-active) {
@@ -320,6 +327,8 @@ const liveUrl = computed(() => {
   display: block;
   width: 100%;
   height: auto;
+  object-fit: contain;
+  object-position: top center;
 }
 
 .iphone__home {

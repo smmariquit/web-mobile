@@ -1,9 +1,15 @@
 <template>
-  <section class="panel stack-panel">
+  <section class="panel stack-panel" :class="{ 'stack-panel--prominent': prominent }">
     <div class="panel__head">
-      <p class="kicker">Stack</p>
-      <span class="caption">From recent work</span>
+      <component :is="prominent ? 'h2' : 'p'" :class="prominent ? 'title-lg stack-panel__title' : 'kicker'">
+        Stack
+      </component>
+      <span class="caption stack-panel__note">Hover or tap a chip to see projects.</span>
     </div>
+
+    <p v-if="hasInteractiveChips && prominent" class="caption stack-panel__hint">
+      Dashed borders mark chips with linked projects.
+    </p>
 
     <div v-if="displayGroups.length" class="stack-groups">
       <div v-for="group in displayGroups" :key="group.id" class="stack-group">
@@ -24,25 +30,31 @@
               class="stack-chip__main stack-chip__trigger"
               :aria-expanded="isOpen(group.id, item.id)"
               :aria-controls="`stack-repos-${group.id}-${item.id}`"
-            @click.stop="toggleChip(group.id, item.id)"
+              :aria-label="`${item.name}, ${item.repos.length} project${item.repos.length === 1 ? '' : 's'}. Hover or tap to show.`"
+              @click.stop="toggleChip(group.id, item.id)"
             >
-              <img :src="item.icon" :alt="item.name" width="18" height="18" />
+              <img :src="item.icon" alt="" :width="iconSize" :height="iconSize" />
               <span>{{ item.name }}</span>
+              <span class="stack-chip__count mono" aria-hidden="true">{{ item.repos.length }}</span>
             </button>
             <span v-else class="stack-chip__main">
-              <img :src="item.icon" :alt="item.name" width="18" height="18" />
+              <img :src="item.icon" :alt="item.name" :width="iconSize" :height="iconSize" />
               <span>{{ item.name }}</span>
             </span>
             <div
               v-if="item.repos?.length"
               :id="`stack-repos-${group.id}-${item.id}`"
               class="stack-chip__repos"
+              role="region"
+              :aria-label="`${item.name} projects`"
               @click.stop
             >
-              <p class="stack-chip__repos-label mono">Repos</p>
+              <p class="stack-chip__repos-label mono">Projects</p>
               <ul>
                 <li v-for="repo in item.repos" :key="repo.url">
-                  <a :href="repo.url" target="_blank" rel="noopener">{{ repo.name }}</a>
+                  <a :href="repo.url" target="_blank" rel="noopener">
+                    {{ repo.name }}<span class="sr-only"> (opens in new tab)</span>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -85,12 +97,20 @@ interface Technology {
 const props = withDefaults(defineProps<{
   groups?: StackGroup[]
   technologies?: Technology[]
+  prominent?: boolean
 }>(), {
   groups: () => [],
   technologies: () => [],
+  prominent: false,
 })
 
 const displayGroups = computed(() => props.groups.length ? props.groups : [])
+
+const hasInteractiveChips = computed(() =>
+  displayGroups.value.some((group) => group.items.some((item) => item.repos?.length)),
+)
+
+const iconSize = computed(() => (props.prominent ? 22 : 18))
 
 const openChipKey = ref<string | null>(null)
 
@@ -113,16 +133,91 @@ function closeChip() {
 
 onMounted(() => {
   document.addEventListener('click', closeChip)
+  document.addEventListener('keydown', onDocumentKeydown)
 })
 
 onUnmounted(() => {
   document.removeEventListener('click', closeChip)
+  document.removeEventListener('keydown', onDocumentKeydown)
 })
+
+function onDocumentKeydown(event: KeyboardEvent) {
+  if (event.key === 'Escape') closeChip()
+}
 </script>
 
 <style scoped>
 .stack-panel {
   height: auto;
+}
+
+.stack-panel__title {
+  margin: 0;
+}
+
+.stack-panel__note {
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.stack-panel__hint {
+  margin: -0.35rem 0 1rem;
+  color: var(--text-muted);
+}
+
+.stack-panel--prominent .stack-panel__hint {
+  margin-bottom: 1.25rem;
+}
+
+.stack-panel--prominent .panel__head {
+  margin-bottom: 1.25rem;
+}
+
+.stack-panel--prominent .stack-groups {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.75rem 2rem;
+}
+
+.stack-panel--prominent .stack-group__label {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.stack-panel--prominent .stack-chips {
+  gap: 0.5rem;
+}
+
+.stack-panel--prominent .stack-chip {
+  padding: 0.45rem 0.7rem;
+  font-size: var(--fs-body);
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--r-sm);
+}
+
+.stack-panel--prominent .stack-chip--has-repos {
+  border-style: dashed;
+  cursor: pointer;
+}
+
+.stack-panel--prominent .stack-chip--has-repos:hover,
+.stack-panel--prominent .stack-chip--has-repos:focus-within,
+.stack-panel--prominent .stack-chip--open {
+  border-style: solid;
+  border-color: var(--border-heavy);
+  background: var(--c-surface-2);
+}
+
+.stack-panel--prominent .stack-chip__main img {
+  width: 1.375rem;
+  height: 1.375rem;
 }
 
 .stack-groups {
@@ -174,11 +269,50 @@ onUnmounted(() => {
   cursor: pointer;
 }
 
+.stack-chip__trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
+
 .stack-chip--has-repos:hover,
 .stack-chip--has-repos:focus-within,
 .stack-chip--open {
   color: var(--c-text);
   z-index: 2;
+}
+
+.stack-chip--has-repos .stack-chip__trigger {
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-decoration-color: var(--border-hairline);
+  text-underline-offset: 0.2em;
+}
+
+.stack-panel--prominent .stack-chip--has-repos .stack-chip__trigger {
+  text-decoration: none;
+}
+
+.stack-chip__count {
+  min-width: 1.1rem;
+  padding: 0.05rem 0.35rem;
+  font-size: 0.75em;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--text-muted);
+  background: var(--c-surface-2);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--r-sm);
+}
+
+.stack-panel--prominent .stack-chip__count {
+  background: var(--bg-primary);
+}
+
+.stack-chip--has-repos:hover .stack-chip__count,
+.stack-chip--open .stack-chip__count {
+  color: var(--text-secondary);
+  border-color: var(--border-heavy);
 }
 
 .stack-chip__main {
@@ -245,16 +379,33 @@ onUnmounted(() => {
   display: inline-block;
   font-family: var(--font-mono);
   font-size: 1rem;
-  color: var(--c-accent);
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
   word-break: break-all;
   cursor: pointer;
 }
 
-.stack-chip__repos a:hover {
-  text-decoration: underline;
+.stack-chip__repos a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 .stack-panel__empty {
   color: var(--c-text-soft);
+}
+
+@media (max-width: 900px) {
+  .stack-panel--prominent .stack-groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .stack-panel--prominent .stack-groups {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

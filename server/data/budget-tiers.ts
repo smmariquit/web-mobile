@@ -23,7 +23,7 @@ export interface BudgetTier {
 }
 
 export const BUDGET_TIERS_LEDE =
-  'You get the same attention to reliability whether it is a $400 site or a $2,200 app. I explain each stack choice before you pay for it.'
+  'Your feature list picks the band. I quote inside that range after the brief, not before.'
 
 export const BUDGET_TIERS: BudgetTier[] = [
   {

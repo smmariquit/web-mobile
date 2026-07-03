@@ -1,23 +1,18 @@
 <template>
-  <section class="analytics" :class="{ 'analytics--compact': compact }">
-    <div class="analytics__head">
+  <section class="analytics" :class="{ 'analytics--compact': compact }" :aria-busy="pending || undefined">
+    <div v-if="!headless" class="analytics__head">
       <div>
-        <p class="kicker">Live traffic</p>
+        <p class="kicker">Traffic</p>
         <p v-if="!compact" class="body-sm analytics__sub">
           Daily unique visitors from Vercel Web Analytics (production).
         </p>
       </div>
-      <div class="analytics__meta">
-        <span v-if="pending" class="caption mono analytics__live">Updating…</span>
-        <span v-else-if="data?.configured" class="caption mono analytics__live">
-          <span class="analytics__dot" aria-hidden="true" />
-          Live
-        </span>
-        <span v-if="updatedLabel" class="caption">{{ updatedLabel }}</span>
-      </div>
+      <p v-if="updatedLabel" class="caption mono analytics__updated">Updated {{ updatedLabel }}</p>
     </div>
 
-    <p v-if="error" class="analytics__notice body-sm">
+    <p v-if="pending && headless" class="caption analytics__status">Loading…</p>
+
+    <p v-if="error" class="analytics__notice body-sm" role="alert">
       Could not load analytics right now.
     </p>
     <p v-else-if="data && !data.configured" class="analytics__notice body-sm">
@@ -50,7 +45,13 @@
       <ul class="analytics__list" :class="{ 'analytics__list--compact': compact }">
         <li v-for="site in visibleSites" :key="site.id" class="analytics__row">
           <div class="analytics__site">
-            <a :href="site.url" target="_blank" rel="noopener" class="analytics__label">
+            <a
+              :href="site.url"
+              target="_blank"
+              rel="noopener"
+              class="analytics__label"
+              :aria-label="`${site.label} (opens in new tab)`"
+            >
               {{ site.label }}
             </a>
             <span class="caption mono analytics__host">{{ site.hostname }}</span>
@@ -90,9 +91,10 @@
       </ul>
 
       <div v-if="compact && data.sites.length > limit" class="analytics__foot">
-        <NuxtLink to="/stats" class="caption profile-link">Full dashboard ↗</NuxtLink>
+        <NuxtLink to="/stats" class="btn btn--line btn--sm">Full dashboard ↗</NuxtLink>
       </div>
       <p v-if="!compact" class="caption analytics__source">
+        <template v-if="headless && updatedLabel">Updated {{ updatedLabel }} · </template>
         Refreshes every minute · Data from Vercel Web Analytics
       </p>
     </template>
@@ -127,11 +129,13 @@ interface AnalyticsPayload {
 const props = withDefaults(
   defineProps<{
     compact?: boolean
+    headless?: boolean
     limit?: number
     days?: number
   }>(),
   {
     compact: false,
+    headless: false,
     limit: 5,
     days: 14,
   },
@@ -214,25 +218,13 @@ onUnmounted(() => {
   color: var(--c-text-muted);
 }
 
-.analytics__meta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.2rem;
+.analytics__updated {
+  color: var(--text-muted);
 }
 
-.analytics__live {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  color: var(--c-teal);
-}
-
-.analytics__dot {
-  width: 0.45rem;
-  height: 0.45rem;
-  border-radius: 50%;
-  background: var(--c-teal);
+.analytics__status {
+  margin-bottom: var(--space-row);
+  color: var(--text-muted);
 }
 
 .analytics__notice {
@@ -316,6 +308,9 @@ onUnmounted(() => {
   font-weight: 600;
   font-size: var(--fs-caption);
   color: var(--c-text);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: 1px;
 }
 
 .analytics__label:hover {
@@ -381,14 +376,6 @@ onUnmounted(() => {
 
 .analytics__foot {
   margin-top: 0.85rem;
-}
-
-.profile-link {
-  color: var(--c-accent);
-}
-
-.profile-link:hover {
-  text-decoration: underline;
 }
 
 .analytics__source {

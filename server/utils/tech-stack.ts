@@ -227,13 +227,23 @@ export const TECH_RULES: TechRule[] = [
       || nameIncludes(repo, 'room-tba', 'room_tba', 'saan-ang-room'),
   },
   {
-    id: 'discord',
-    name: 'Discord',
+    id: 'discordpy',
+    name: 'Discordpy',
     category: 'platform',
-    icon: '/tech/discord.svg',
+    icon: '/tech/discordpy.svg',
     matches: (repo) =>
-      topic(repo, 'discord', 'discord-bot', 'discordjs')
-      || nameIncludes(repo, 'discord', 'comskies'),
+      repo.language === 'Python'
+      && (topic(repo, 'discord', 'discord-bot', 'discordpy')
+        || nameIncludes(repo, 'comskies')),
+  },
+  {
+    id: 'discordjs',
+    name: 'Discordjs',
+    category: 'platform',
+    icon: '/tech/discordjs.svg',
+    matches: (repo) =>
+      topic(repo, 'discordjs', 'discord-bot', 'discord.js')
+      || nameIncludes(repo, 'discord-bot-host', 'discord_bot_host'),
   },
 ]
 

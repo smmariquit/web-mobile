@@ -14,15 +14,16 @@
       </header>
 
       <div class="contact-layout">
-        <form class="contact-form" @submit.prevent="handleSubmit">
+        <form class="contact-form" aria-labelledby="contact-form-title" @submit.prevent="handleSubmit">
+          <h2 id="contact-form-title" class="sr-only">Project inquiry</h2>
           <div class="contact-form__row">
             <div class="field">
               <label for="name">Name</label>
-              <input id="name" v-model="form.name" class="input" required />
+              <input id="name" v-model="form.name" class="input" autocomplete="name" required />
             </div>
             <div class="field">
               <label for="email">Email</label>
-              <input id="email" v-model="form.email" type="email" class="input" required />
+              <input id="email" v-model="form.email" type="email" class="input" autocomplete="email" inputmode="email" required />
             </div>
           </div>
           <div class="field">
@@ -47,29 +48,36 @@
             />
           </div>
           <div class="contact-form__actions">
-            <button type="submit" class="btn btn--solid" :disabled="submitted">
+            <button type="submit" class="btn btn--solid" :disabled="submitted" :aria-busy="submitting">
               {{ submitted ? 'Sent' : 'Explain your project' }}
             </button>
-            <p v-if="submitted" class="body-sm contact-form__success">Got it. I will reply soon.</p>
+            <p v-if="submitted" class="body-sm contact-form__success" role="status" aria-live="polite">
+              Got it. I will reply soon.
+            </p>
           </div>
         </form>
 
-        <aside class="contact-aside">
-          <ProcessSteps
-            v-if="engagement?.process?.length"
-            title="Next steps"
-            :steps="engagement.process"
-          />
+        <aside class="contact-aside page-stack">
+          <section>
+            <p class="kicker">What happens next</p>
+            <p class="body-sm">
+              I reply within 1 to 2 weekdays with questions or a quote. Process and rates are on
+              <NuxtLink to="/hire" class="text-link">Hire</NuxtLink>.
+            </p>
+          </section>
 
           <section v-if="pricing">
             <p class="kicker">Quick rates</p>
-            <ul class="rate-quick">
+            <ul class="rate-quick divide-rows">
               <li v-for="s in pricing.services" :key="s.id">
                 <span>{{ s.title }}</span>
                 <span class="mono caption">{{ s.startingAt.label }}</span>
               </li>
             </ul>
-            <p class="caption" style="margin-top: 0.75rem;">{{ pricing.hourly.label }} consulting · {{ pricing.note }}</p>
+            <p class="caption" style="margin-top: 0.75rem;">
+              {{ pricing.hourly.label }} consulting ·
+              <NuxtLink to="/hire" class="text-link">Full breakdown on Hire</NuxtLink>
+            </p>
           </section>
         </aside>
       </div>
@@ -79,15 +87,14 @@
 <script setup lang="ts">
 useHead({ title: 'Contact' })
 
-const [{ data: engagement }, { data: pricing }] = await Promise.all([
-  useFetch('/api/engagement'),
-  useFetch('/api/pricing'),
-])
+const { data: pricing } = await useFetch('/api/pricing')
 
 const form = reactive({ name: '', email: '', type: '', message: '' })
 const submitted = ref(false)
+const submitting = ref(false)
 
 async function handleSubmit() {
+  submitting.value = true
   try {
     await $fetch('/api/contact', { method: 'POST', body: { ...form } })
     submitted.value = true
@@ -96,6 +103,8 @@ async function handleSubmit() {
     const body = encodeURIComponent(form.message)
     window.open(`mailto:semariquit@gmail.com?subject=${subject}&body=${body}`)
     submitted.value = true
+  } finally {
+    submitting.value = false
   }
 }
 </script>
@@ -136,23 +145,17 @@ async function handleSubmit() {
 .contact-aside {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
   max-width: var(--measure-prose);
 }
 
-.rate-quick {
-  margin-top: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+.contact-aside .kicker {
+  margin-bottom: var(--space-row);
 }
 
 .rate-quick li {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--border-hairline);
   font-size: var(--fs-body);
   color: var(--text-secondary);
 }

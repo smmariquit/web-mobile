@@ -57,14 +57,36 @@ export function getTotalAudience() {
   return TALKS.reduce((sum, talk) => sum + talk.audienceSize, 0)
 }
 
+/** Curated for the hire portfolio About page — not recency-ordered. */
+const FEATURED_TALK_SLUGS = [
+  'hearthcraft-40000-player-minecraft-server',
+  'dep-ai-use-cases-that-actually-matter',
+  'dlsu-eces-agile-edge-swift-project-workflows',
+  'minecraft-moments-milestones-eheads-21',
+  'hosting-a-minecraft-server-cdm',
+  'present-insights-better-batangas-eastern-colleges',
+] as const
+
 export function getFeaturedTalks(limit = 6) {
-  return [...TALKS]
+  const bySlug = new Map(TALKS.map((talk) => [talk.slug, talk]))
+  const curated = FEATURED_TALK_SLUGS.map((slug) => bySlug.get(slug)).filter(
+    (talk): talk is TalkEntry => talk != null,
+  )
+
+  if (curated.length >= limit) {
+    return curated.slice(0, limit)
+  }
+
+  const seen = new Set(curated.map((talk) => talk.slug))
+  const rest = [...TALKS]
+    .filter((talk) => !seen.has(talk.slug))
     .sort((a, b) => {
       const da = a.date ? Date.parse(a.date) : 0
       const db = b.date ? Date.parse(b.date) : 0
       return db - da
     })
-    .slice(0, limit)
+
+  return [...curated, ...rest].slice(0, limit)
 }
 `
 
