@@ -1,147 +1,98 @@
 <template>
-  <div>
-    <section class="section">
-      <div class="container">
-        <FadeIn>
-          <div class="contact-header">
-            <p class="label">Contact</p>
-            <h1 class="heading-xl">Get in touch.</h1>
-            <p class="body-lg contact-header__body">
-              Freelance web and mobile work — full builds, one-off features, or CI that
-              ships your APK. Email below; I usually reply within 24 hours.
-            </p>
+  <div class="page">
+      <header class="page-head">
+        <p class="kicker">Contact</p>
+        <div class="page-head__row">
+          <h1 class="display measure">Send a brief.</h1>
+          <div class="btn-row">
+            <a href="https://cal.com/simonee" target="_blank" rel="noopener" class="btn btn--solid">Book a 15-min call</a>
           </div>
-        </FadeIn>
-
-        <div class="contact-grid">
-          <!-- Form -->
-          <FadeIn>
-            <form class="contact-form card" @submit.prevent="handleSubmit">
-              <div class="form-group">
-                <label for="contact-name" class="label">Name</label>
-                <input
-                  id="contact-name"
-                  v-model="form.name"
-                  type="text"
-                  class="form-input"
-                  placeholder="Your name"
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="contact-email" class="label">Email</label>
-                <input
-                  id="contact-email"
-                  v-model="form.email"
-                  type="email"
-                  class="form-input"
-                  placeholder="you@example.com"
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="contact-type" class="label">Project Type</label>
-                <select id="contact-type" v-model="form.type" class="form-input">
-                  <option value="" disabled>Select a project type</option>
-                  <option value="web">Web Application</option>
-                  <option value="mobile">Mobile App</option>
-                  <option value="extension">Browser Extension</option>
-                  <option value="consulting">Technical Consulting</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="contact-message" class="label">Message</label>
-                <textarea
-                  id="contact-message"
-                  v-model="form.message"
-                  class="form-input form-textarea"
-                  placeholder="Tell me about your project..."
-                  rows="5"
-                  required
-                ></textarea>
-              </div>
-
-              <button type="submit" class="btn btn--primary" :disabled="submitted" style="width: 100%; justify-content: center;">
-                {{ submitted ? 'Message Sent!' : 'Send Message →' }}
-              </button>
-
-              <p v-if="submitted" class="body" style="text-align: center; color: var(--c-teal); margin-top: var(--sp-3); font-size: 0.875rem;">
-                Thanks! I'll get back to you soon.
-              </p>
-            </form>
-          </FadeIn>
-
-          <!-- Info sidebar -->
-          <FadeIn>
-            <div class="contact-info">
-              <div class="card info-card">
-                <h3 class="heading-sm">Direct Email</h3>
-                <a href="mailto:semariquit@gmail.com" class="info-link">
-                  semariquit@gmail.com
-                </a>
-              </div>
-
-              <div class="card info-card">
-                <h3 class="heading-sm">Connect</h3>
-                <div class="info-links">
-                  <a href="https://github.com/smmariquit" target="_blank" rel="noopener" class="info-link">
-                    GitHub
-                  </a>
-                  <a href="https://linkedin.com/in/stimmie" target="_blank" rel="noopener" class="info-link">
-                    LinkedIn
-                  </a>
-                  <a href="https://stimmie.dev" target="_blank" rel="noopener" class="info-link">
-                    stimmie.dev
-                  </a>
-                </div>
-              </div>
-
-              <div class="card info-card">
-                <h3 class="heading-sm">Based In</h3>
-                <p class="body">Philippines · UTC+08:00</p>
-              </div>
-
-              <div class="card info-card">
-                <h3 class="heading-sm">Availability</h3>
-                <div style="display: flex; align-items: center; gap: var(--sp-2);">
-                  <span class="availability-dot"></span>
-                  <p class="body" style="color: var(--c-teal);">Open to freelance work</p>
-                </div>
-              </div>
-            </div>
-          </FadeIn>
         </div>
+        <p class="lede measure" style="margin-top: 1rem;">
+          Tell me what you are building, who it is for, your deadline, and your budget range. I reply within 24 hours on weekdays, Philippines time.
+        </p>
+      </header>
+
+      <div class="contact-layout">
+        <form class="contact-form" @submit.prevent="handleSubmit">
+          <div class="contact-form__row">
+            <div class="field">
+              <label for="name">Name</label>
+              <input id="name" v-model="form.name" class="input" required />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" v-model="form.email" type="email" class="input" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="type">Project type</label>
+            <select id="type" v-model="form.type" class="input" required>
+              <option value="" disabled>Select</option>
+              <option value="web">Web app</option>
+              <option value="mobile">Mobile app</option>
+              <option value="extension">Browser extension</option>
+              <option value="consulting">Consulting / CI</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="message">Brief</label>
+            <textarea
+              id="message"
+              v-model="form.message"
+              class="input input--area"
+              placeholder="What, for whom, when, budget. Links help."
+              required
+            />
+          </div>
+          <div class="contact-form__actions">
+            <button type="submit" class="btn btn--solid" :disabled="submitted">
+              {{ submitted ? 'Sent' : 'Explain your project' }}
+            </button>
+            <p v-if="submitted" class="body-sm contact-form__success">Got it. I will reply soon.</p>
+          </div>
+        </form>
+
+        <aside class="contact-aside">
+          <ProcessSteps
+            v-if="engagement?.process?.length"
+            title="Next steps"
+            :steps="engagement.process"
+          />
+
+          <section v-if="pricing">
+            <p class="kicker">Quick rates</p>
+            <ul class="rate-quick">
+              <li v-for="s in pricing.services" :key="s.id">
+                <span>{{ s.title }}</span>
+                <span class="mono caption">{{ s.startingAt.label }}</span>
+              </li>
+            </ul>
+            <p class="caption" style="margin-top: 0.75rem;">{{ pricing.hourly.label }} consulting · {{ pricing.note }}</p>
+          </section>
+        </aside>
       </div>
-    </section>
-  </div>
+    </div>
 </template>
 
 <script setup lang="ts">
 useHead({ title: 'Contact' })
 
-const form = reactive({
-  name: '',
-  email: '',
-  type: '',
-  message: '',
-})
+const [{ data: engagement }, { data: pricing }] = await Promise.all([
+  useFetch('/api/engagement'),
+  useFetch('/api/pricing'),
+])
 
+const form = reactive({ name: '', email: '', type: '', message: '' })
 const submitted = ref(false)
 
 async function handleSubmit() {
   try {
-    await $fetch('/api/contact', {
-      method: 'POST',
-      body: { ...form },
-    })
+    await $fetch('/api/contact', { method: 'POST', body: { ...form } })
     submitted.value = true
   } catch {
-    // Fallback — open mailto
-    const subject = encodeURIComponent(`[Web Portfolio] ${form.type || 'Project'} inquiry from ${form.name}`)
+    const subject = encodeURIComponent(`[Portfolio] ${form.type} from ${form.name}`)
     const body = encodeURIComponent(form.message)
     window.open(`mailto:semariquit@gmail.com?subject=${subject}&body=${body}`)
     submitted.value = true
@@ -150,107 +101,69 @@ async function handleSubmit() {
 </script>
 
 <style scoped>
-.contact-header {
-  max-width: 560px;
-  margin-bottom: var(--sp-12);
-}
-
-.contact-header__body {
-  margin-top: var(--sp-4);
-}
-
-.contact-grid {
+.contact-layout {
   display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: var(--sp-8);
+  grid-template-columns: minmax(0, var(--measure-form)) minmax(0, 1fr);
+  gap: 3rem;
   align-items: start;
 }
 
-/* Form */
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-5);
+  gap: 1rem;
+  max-width: var(--measure-form);
 }
 
-.form-group {
+.contact-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.contact-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  padding-top: 0.5rem;
+}
+
+.contact-form__success {
+  color: var(--accent);
+}
+
+.contact-aside {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-2);
+  gap: 2rem;
+  max-width: var(--measure-prose);
 }
 
-.form-input {
-  width: 100%;
-  padding: var(--sp-3) var(--sp-4);
-  font-family: var(--font-sans);
-  font-size: 0.9375rem;
-  color: var(--c-text-primary);
-  background: var(--c-bg);
-  border: 1px solid var(--c-border);
-  border-radius: var(--r-md);
-  transition: border-color var(--duration-fast) var(--ease-out);
-  outline: none;
-}
-
-.form-input:focus {
-  border-color: var(--c-accent);
-}
-
-.form-input::placeholder {
-  color: var(--c-text-tertiary);
-}
-
-.form-textarea {
-  resize: vertical;
-  min-height: 120px;
-}
-
-select.form-input {
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%239a9ab0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: var(--sp-10);
-}
-
-/* Info sidebar */
-.contact-info {
+.rate-quick {
+  margin-top: 0.75rem;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-4);
+  gap: 0;
 }
 
-.info-card {
-  padding: var(--sp-5) var(--sp-6);
-}
-
-.info-link {
-  display: block;
-  color: var(--c-accent);
-  font-size: 0.9375rem;
-  margin-top: var(--sp-2);
-  transition: opacity var(--duration-fast);
-}
-
-.info-link:hover {
-  opacity: 0.8;
-}
-
-.info-links {
+.rate-quick li {
   display: flex;
-  flex-direction: column;
-  gap: var(--sp-1);
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-hairline);
+  font-size: var(--fs-body);
+  color: var(--text-secondary);
 }
 
-.availability-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--c-teal);
-}
+@media (max-width: 900px) {
+  .contact-layout {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
 
-@media (max-width: 768px) {
-  .contact-grid {
+  .contact-form__row {
     grid-template-columns: 1fr;
   }
 }

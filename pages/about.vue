@@ -1,290 +1,274 @@
 <template>
-  <div>
-    <section class="section">
-      <div class="container">
-        <FadeIn>
-          <div class="about-header">
-            <p class="label">About</p>
-            <h1 class="heading-xl">
-              Simonee Ezekiel
-              <span class="hero__accent">Mariquit</span>
-            </h1>
-            <p class="body-lg about-header__body">
-              BS Computer Science at
-              <strong>UP Los Baños</strong>. Started running game servers at 13,
-              built my own PC at 16, now shipping web apps, mobile apps, Discord bots,
-              and browser extensions. I hate LinkedIn but I do reply to email.
-            </p>
-            <div v-if="stats" class="about-stats">
-              <span class="tag">{{ stats.publicRepos }} public repos</span>
-              <span class="tag tag--accent">{{ stats.totalStars }} stars</span>
-              <span class="tag">{{ stats.followers }} followers</span>
-            </div>
-          </div>
-        </FadeIn>
+  <div class="page">
+      <header class="page-head about-head">
+        <p class="kicker">About</p>
+        <div class="page-head__row">
+          <h1 class="display">{{ profile?.profile?.name ?? 'Simonee Mariquit' }}</h1>
+        </div>
 
-        <!-- Experience -->
-        <FadeIn>
-          <div class="about-section">
-            <h2 class="heading-md">Experience</h2>
-            <div class="timeline">
-              <div class="timeline__item" v-for="exp in experience" :key="exp.title">
-                <div class="timeline__dot"></div>
-                <div class="timeline__content">
-                  <div class="timeline__header">
-                    <h3 class="heading-sm">{{ exp.title }}</h3>
-                    <span class="mono" style="font-size: 0.75rem; color: var(--c-text-tertiary);">{{ exp.period }}</span>
-                  </div>
-                  <p class="body" style="font-size: 0.875rem;">{{ exp.org }}</p>
-                  <p class="body">{{ exp.description }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </FadeIn>
-
-        <!-- Skills -->
-        <FadeIn>
-          <div class="about-section">
-            <h2 class="heading-md">Stack from GitHub</h2>
-            <p class="body" style="margin-bottom: var(--sp-6);">
-              Detected across my public repos — not a resume keyword dump.
-              Proficiency tags follow repo count.
+        <div class="about-intro">
+          <div class="about-intro__copy">
+            <p class="lede measure about-lede">
+              {{ profile?.profile?.aboutParagraph1 ?? profile?.profile?.aboutLede }}
             </p>
-            <TechStack
-              v-if="stack?.technologies?.length"
-              :technologies="stack.technologies"
-              style="margin-bottom: var(--sp-10);"
-            />
-            <div v-if="skills" class="skills-grid">
-              <div
-                v-for="cat in skills.categories"
-                :key="cat.name"
-                class="card skill-card"
+            <p v-if="profile?.profile?.aboutParagraph2" class="body-sm measure about-bio">
+              {{ profile.profile.aboutParagraph2 }}
+            </p>
+            <p class="body-sm measure about-writing">
+              {{ profile?.writing?.summary }}
+            </p>
+            <div class="about-links">
+              <a :href="profile?.profile?.resumeUrl" target="_blank" rel="noopener" class="about-link-chip">Resume</a>
+              <a :href="profile?.profile?.linkedinUrl" target="_blank" rel="noopener" class="about-link-chip">LinkedIn</a>
+              <a :href="profile?.profile?.careerUrl" target="_blank" rel="noopener" class="about-link-chip">Career</a>
+              <a
+                v-for="link in profile?.writing?.links ?? []"
+                :key="link.href"
+                :href="link.href"
+                target="_blank"
+                rel="noopener"
+                class="about-link-chip"
               >
-                <h3 class="heading-sm skill-card__title">{{ cat.name }}</h3>
-                <ul class="skill-list">
-                  <li v-for="skill in cat.items" :key="skill.name" class="skill-item">
-                    <span class="skill-item__name">
-                      <img v-if="skill.icon" :src="skill.icon" alt="" class="skill-item__icon" width="16" height="16" />
-                      {{ skill.name }}
-                      <span class="mono skill-item__repos">{{ skill.repoCount }} repos</span>
-                    </span>
-                    <span class="tag" :class="levelClass(skill.level)">{{ skill.level }}</span>
-                  </li>
-                </ul>
-              </div>
+                {{ link.label }}
+              </a>
             </div>
           </div>
-        </FadeIn>
+        </div>
+      </header>
 
-        <!-- Speaking -->
-        <FadeIn>
-          <div class="about-section">
-            <h2 class="heading-md">Talks &amp; workshops</h2>
-            <p class="body" style="margin-bottom: var(--sp-6);">
-              7 talks/workshops so far — data science, ML, hackathon pitching, agile workflows.
-            </p>
-            <div class="talks-grid">
-              <div v-for="talk in talks" :key="talk.title" class="card talk-card">
-                <div class="talk-card__header">
-                  <span class="tag" :class="talk.type === 'Workshop' ? '' : 'tag--accent'">{{ talk.type }}</span>
-                  <span class="mono" style="font-size: 0.75rem; color: var(--c-text-tertiary);">{{ talk.year }}</span>
-                </div>
-                <h3 class="heading-sm">{{ talk.title }}</h3>
-                <p class="body" style="font-size: 0.8125rem;">{{ talk.org }}</p>
+      <div class="about-flow">
+        <section class="about-panel section-block">
+          <p class="kicker">Experience</p>
+          <ul class="exp-list">
+            <li v-for="exp in profile?.experience ?? []" :key="`${exp.title}-${exp.org}`" class="exp-list__item">
+              <p class="mono caption exp-list__period">{{ exp.period }}</p>
+              <div class="exp-list__copy">
+                <h3 class="title-sm">{{ exp.title }}</h3>
+                <a
+                  v-if="exp.href"
+                  :href="exp.href"
+                  target="_blank"
+                  rel="noopener"
+                  class="body-sm org-link"
+                >{{ exp.org }}</a>
+                <p v-else class="body-sm org-link">{{ exp.org }}</p>
+                <p class="body-sm">{{ exp.description }}</p>
               </div>
-            </div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="about-panel section-block">
+          <div class="panel__head talks-head">
+            <p class="kicker">Talks</p>
+            <a :href="profile?.profile?.talksUrl" target="_blank" rel="noopener" class="caption profile-link">
+              All {{ talks?.totalAudience?.toLocaleString() }}+ reached ↗
+            </a>
           </div>
-        </FadeIn>
+          <ul class="talk-cards">
+            <li v-for="talk in talks?.featured ?? []" :key="talk.slug">
+              <a :href="talk.url" target="_blank" rel="noopener" class="talk-card">
+                <div class="talk-card__head">
+                  <span class="tag" :class="talk.type === 'Workshop' ? 'tag--workshop' : 'tag--talk'">{{ talk.type }}</span>
+                  <span class="caption mono talk-card__meta">
+                    {{ talk.year ?? 'n/a' }} · {{ talk.audienceSize }} reached
+                  </span>
+                </div>
+                <h3 class="title-sm talk-card__title">{{ talk.title }}</h3>
+                <p class="caption talk-card__event">{{ talk.event }}</p>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <div class="section-block">
+          <StackPanel
+            :groups="stackGroups"
+            :technologies="stack?.technologies ?? []"
+          />
+        </div>
+
+        <div class="section-block">
+          <StimmieMapPanel
+            :sections="capabilities?.sections"
+            :directory="capabilities?.directory"
+            :max-items="4"
+          />
+        </div>
+
+        <section class="about-panel section-block">
+          <p class="kicker">How I ship</p>
+          <div class="ship-pillars">
+            <article v-for="(pillar, i) in engineering?.pillars ?? []" :key="pillar.id" class="ship-pillar">
+              <span class="ship-pillar__index mono">{{ String(i + 1).padStart(2, '0') }}</span>
+              <h3 class="title-sm">{{ pillar.title }}</h3>
+              <p class="body-sm ship-pillar__summary">{{ pillar.summary }}</p>
+              <ul class="ship-pillar__links">
+                <li v-for="hit in pillar.highlights.slice(0, 2)" :key="hit.url">
+                  <a :href="hit.url" target="_blank" rel="noopener">{{ hit.title }}</a>
+                  <span class="caption mono">{{ hit.repo }}</span>
+                </li>
+              </ul>
+            </article>
+          </div>
+        </section>
       </div>
-    </section>
-  </div>
+    </div>
 </template>
 
 <script setup lang="ts">
 useHead({ title: 'About' })
 
-const [{ data: skills }, { data: stack }, { data: stats }] = await Promise.all([
-  useFetch('/api/skills'),
+const [{ data: stack }, { data: engineering }, { data: profile }, { data: talks }, { data: capabilities }] = await Promise.all([
   useFetch('/api/stack'),
-  useFetch('/api/github-stats'),
+  useFetch('/api/engineering'),
+  useFetch('/api/profile'),
+  useFetch('/api/talks'),
+  useFetch('/api/capabilities'),
 ])
 
-const levelClass = (level: string) => {
-  if (level === 'proficient') return 'tag--accent'
-  return ''
-}
-
-const experience = [
-  {
-    title: 'Engineering',
-    org: 'E-Konsulta Medical Clinic',
-    period: 'Apr 2025 – Jan 2026',
-    description:
-      'Patient booking flows, mobile-responsive UI, internal Discord bots for standups. React/Next.js, form validation, Firebase.',
-  },
-  {
-    title: 'Web admin & developer',
-    org: 'Freelance / gaming communities',
-    period: '2019 – present',
-    description:
-      'WordPress forums and storefronts, Tebex payments, Linux VPS ops, SEO, and support for gaming communities.',
-  },
-  {
-    title: 'Founder',
-    org: 'HearthCraft Minecraft server',
-    period: '2018 – 2024',
-    description:
-      'Survival server, 10k+ players over six years. Bare-metal and cloud hosts, Docker, Java plugins, moderation.',
-  },
-]
-
-const talks = [
-  { type: 'Workshop', year: 2024, title: 'What is Data Science?', org: 'UPLB DSG × UPRHS CodeIT' },
-  { type: 'Workshop', year: 2024, title: 'Storytelling with Data', org: 'UPLB DSG × UPRHS CodeIT' },
-  { type: 'Workshop', year: 2024, title: 'Data Storytelling with Canva', org: 'UPLB Data Science Guild' },
-  { type: 'Talk', year: 2025, title: 'Winning by Talking', org: 'NextStep Hacks 2025' },
-  { type: 'Workshop', year: 2025, title: 'Machine Learning with Python', org: 'JPCS QCU Logic Unlocked' },
-  { type: 'Talk', year: 2025, title: 'AI Use Cases That Actually Matter', org: 'Data Engineering Pilipinas' },
-  { type: 'Talk', year: 2025, title: 'Agile Edge: Swift Project Workflows', org: 'DLSU ECES' },
-]
+const stackGroups = computed(() => stack.value?.groups ?? [])
 </script>
 
 <style scoped>
-.about-header {
-  max-width: 640px;
-  margin-bottom: var(--sp-16);
+.about-flow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
 }
 
-.about-header__body {
-  margin-top: var(--sp-6);
+.about-flow > .section-block:nth-child(n + 3) {
+  grid-column: 1 / -1;
 }
 
-.about-header__body strong {
-  color: var(--c-text-primary);
+.about-flow > .section-block:nth-child(-n + 2) {
+  border-top: none;
+  padding-top: 0;
 }
 
-.about-stats {
+.about-intro {
+  margin-top: 1.25rem;
+}
+
+.about-bio,
+.about-writing {
+  margin-top: 0.75rem;
+}
+
+.about-links {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sp-3);
-  margin-top: var(--sp-6);
+  gap: 0.75rem 1rem;
+  margin-top: 1rem;
 }
 
-.hero__accent {
-  background: linear-gradient(135deg, var(--c-accent) 0%, #f0c674 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.about-link-chip {
+  font-size: var(--fs-caption);
+  color: var(--accent);
 }
 
-.about-section {
-  margin-bottom: var(--sp-16);
+.about-link-chip:hover {
+  text-decoration: underline;
 }
 
-.about-section > .heading-md {
-  margin-bottom: var(--sp-8);
-  padding-bottom: var(--sp-3);
-  border-bottom: 1px solid var(--c-border);
+.profile-link {
+  color: var(--accent);
 }
 
-.timeline {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-8);
-  padding-left: var(--sp-6);
-  border-left: 2px solid var(--c-border);
+.profile-link:hover {
+  text-decoration: underline;
 }
 
-.timeline__item {
-  position: relative;
+.org-link {
+  color: var(--accent);
+  display: block;
+  margin: 0.1rem 0 0.25rem;
 }
 
-.timeline__dot {
-  position: absolute;
-  left: calc(-1 * var(--sp-6) - 5px);
-  top: 4px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--c-accent);
-  border: 2px solid var(--c-bg);
+.exp-list,
+.talk-cards {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.timeline__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: var(--sp-1);
-  flex-wrap: wrap;
-  gap: var(--sp-3);
-}
-
-.timeline__content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-2);
-}
-
-.skills-grid {
+.exp-list__item {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--sp-6);
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-hairline);
 }
 
-.skill-card__title {
-  margin-bottom: var(--sp-5);
-}
-
-.skill-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-}
-
-.skill-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--sp-3);
-  font-size: 0.875rem;
-  color: var(--c-text-secondary);
-}
-
-.skill-item__name {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-  min-width: 0;
-}
-
-.skill-item__icon {
-  flex-shrink: 0;
-  object-fit: contain;
-}
-
-.skill-item__repos {
-  font-size: 0.6875rem;
-  color: var(--c-text-tertiary);
-}
-
-.talks-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--sp-4);
+.exp-list__period {
+  color: var(--text-muted);
 }
 
 .talk-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-  padding: var(--sp-5) var(--sp-6);
+  display: block;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border-hairline);
+  color: inherit;
 }
 
-.talk-card__header {
+.talk-card:hover .talk-card__title {
+  color: var(--accent);
+}
+
+.talk-card__head {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.talk-card__meta {
+  color: var(--text-muted);
+}
+
+.talk-card__event {
+  margin-top: 0.2rem;
+  color: var(--text-secondary);
+}
+
+.ship-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+}
+
+.ship-pillar {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-hairline);
+}
+
+.ship-pillar__index {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--accent);
+}
+
+.ship-pillar__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-top: 0.5rem;
+}
+
+.ship-pillar__links a {
+  font-size: var(--fs-caption);
+  color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .about-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .ship-pillars {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

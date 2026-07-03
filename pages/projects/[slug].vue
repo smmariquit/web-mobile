@@ -1,277 +1,354 @@
 <template>
-  <div v-if="project">
-    <section class="section">
-      <div class="container">
-        <FadeIn>
-          <NuxtLink to="/projects" class="btn btn--ghost back-link">
-            <span aria-hidden="true">←</span>
-            All Projects
-          </NuxtLink>
-        </FadeIn>
+  <div v-if="project" class="page">
+    <NuxtLink to="/projects" class="back caption">← All projects</NuxtLink>
 
-        <FadeIn>
-          <div class="detail-header">
-            <div class="detail-header__meta">
-              <span class="tag tag--accent">{{ categoryLabel }}</span>
-              <span class="mono" style="font-size: 0.8125rem; color: var(--c-text-tertiary);">{{ project.year }}</span>
-            </div>
-
-            <h1 class="heading-xl">{{ project.title }}</h1>
-            <p class="heading-md detail-header__subtitle">{{ project.subtitle }}</p>
+    <header class="page-head" style="border: none; padding-bottom: 0;">
+      <div class="detail-head">
+        <div>
+          <div class="detail-head__tags">
+            <span class="tag tag--hot">{{ categoryLabel }}</span>
+            <span class="tag mono">{{ project.year }}</span>
           </div>
-        </FadeIn>
-
-        <FadeIn>
-          <div class="detail-body">
-            <div class="detail-body__main">
-              <h2 class="heading-sm" style="margin-bottom: var(--sp-4);">Overview</h2>
-              <p class="body-lg">{{ project.description }}</p>
-
-              <div class="detail-impact">
-                <span class="label">Impact</span>
-                <p class="body">{{ project.impact }}</p>
-              </div>
-
-              <div v-if="project.images && project.images.length" class="detail-gallery">
-                <img v-for="img in project.images" :key="img" :src="img" class="detail-gallery__img" alt="Project Screenshot" loading="lazy" />
-              </div>
-            </div>
-
-            <aside class="detail-body__sidebar">
-              <div class="detail-meta-card card">
-                <h3 class="heading-sm">Tech Stack</h3>
-                <div class="detail-stack">
-                  <span v-for="tech in project.stack" :key="tech" class="tag">{{ tech }}</span>
-                </div>
-
-                <hr class="divider" style="margin: var(--sp-5) 0;" />
-
-                <h3 class="heading-sm">Links</h3>
-                <div class="detail-links">
-                  <a
-                    v-if="project.links.live"
-                    :href="project.links.live"
-                    target="_blank"
-                    rel="noopener"
-                    class="btn btn--primary"
-                    style="width: 100%; justify-content: center;"
-                  >
-                    Visit Live Site →
-                  </a>
-                  <a
-                    v-if="project.links.github"
-                    :href="project.links.github"
-                    target="_blank"
-                    rel="noopener"
-                    class="btn btn--outline"
-                    style="width: 100%; justify-content: center;"
-                  >
-                    View Source Code
-                  </a>
-                </div>
-              </div>
-            </aside>
-          </div>
-        </FadeIn>
-
-        <!-- Adjacent navigation -->
-        <FadeIn>
-          <div class="detail-nav" v-if="allProjects">
-            <NuxtLink
-              v-if="prevProject"
-              :to="`/projects/${prevProject.slug}`"
-              class="detail-nav__item card"
-            >
-              <span class="body" style="font-size: 0.75rem;">← Previous</span>
-              <span class="heading-sm">{{ prevProject.title }}</span>
-            </NuxtLink>
-            <div v-else></div>
-
-            <NuxtLink
-              v-if="nextProject"
-              :to="`/projects/${nextProject.slug}`"
-              class="detail-nav__item detail-nav__item--next card"
-            >
-              <span class="body" style="font-size: 0.75rem;">Next →</span>
-              <span class="heading-sm">{{ nextProject.title }}</span>
-            </NuxtLink>
-          </div>
-        </FadeIn>
+          <h1 class="display">{{ project.title }}</h1>
+          <p class="title-md detail-head__sub">{{ project.subtitle }}</p>
+        </div>
+        <div class="btn-row detail-head__actions">
+          <a
+            v-if="project.links.live"
+            :href="project.links.live"
+            target="_blank"
+            rel="noopener"
+            class="btn btn--solid"
+          >
+            Live site
+          </a>
+          <a
+            v-if="project.links.github"
+            :href="project.links.github"
+            target="_blank"
+            rel="noopener"
+            class="btn btn--line"
+          >
+            GitHub repo
+          </a>
+        </div>
       </div>
-    </section>
-  </div>
+    </header>
 
-  <div v-else>
-    <section class="section">
-      <div class="container" style="text-align: center; padding: var(--sp-24) 0;">
-        <h1 class="heading-lg">Project not found</h1>
-        <p class="body-lg" style="margin-top: var(--sp-4);">
-          This project doesn't exist or has been moved.
-        </p>
-        <NuxtLink to="/projects" class="btn btn--primary" style="margin-top: var(--sp-8);">
-          View All Projects
-        </NuxtLink>
-      </div>
-    </section>
+    <ProjectPreview
+      v-if="hasPreview"
+      :title="project.title"
+      :previews="project.previews"
+      :fallback-image="project.images?.[0]"
+      :live-url="project.links.live"
+      :github-url="project.links.github"
+      :hardware="project.category === 'mobile' && !project.previews?.desktop"
+      class="detail-preview"
+    />
+
+    <div class="detail-grid">
+      <article class="detail-main">
+        <section v-if="hasCaseStudy" class="panel case-study">
+          <p class="kicker">Case study</p>
+          <p class="lede detail-copy">{{ project.situation }}</p>
+
+          <div class="case-flow">
+            <section
+              v-for="section in caseSections"
+              :key="section.title"
+              class="case-flow__section"
+            >
+              <h2 class="title-sm">{{ section.title }}</h2>
+              <p class="body-sm">{{ section.copy }}</p>
+            </section>
+          </div>
+
+          <p v-if="project.postmortem" class="body-sm case-study__post">
+            <strong>Postmortem:</strong> {{ project.postmortem }}
+          </p>
+          <p class="body-sm detail-impact">
+            <strong>Impact:</strong> {{ project.impact }}
+          </p>
+        </section>
+
+        <section v-else class="panel">
+          <p class="kicker">Overview</p>
+          <p class="lede detail-copy">{{ project.description }}</p>
+          <p class="body-sm detail-impact">
+            <strong>Impact:</strong> {{ project.impact }}
+          </p>
+        </section>
+
+        <div v-if="extraImages.length" class="gallery">
+          <img v-for="img in extraImages" :key="img" :src="img" alt="" loading="lazy" />
+        </div>
+      </article>
+
+      <aside class="detail-side">
+        <section v-if="project.constraint" class="panel constraint-panel">
+          <p class="kicker">Constraints</p>
+          <p class="body-sm">{{ project.constraint }}</p>
+        </section>
+
+        <section class="panel">
+          <p class="kicker">Stack</p>
+          <div class="tags">
+            <span v-for="tech in project.stack" :key="tech" class="tag">{{ tech }}</span>
+          </div>
+        </section>
+
+        <section v-if="project.links.github" class="panel">
+          <p class="kicker">Repository</p>
+          <a
+            :href="project.links.github"
+            target="_blank"
+            rel="noopener"
+            class="repo-link mono caption"
+          >
+            {{ repoLabel }}
+          </a>
+        </section>
+      </aside>
+    </div>
+
+    <nav v-if="allProjects" class="detail-nav">
+      <NuxtLink v-if="prevProject" :to="`/projects/${prevProject.slug}`" class="panel nav-link">
+        <span class="caption">Previous</span>
+        <span class="title-sm">{{ prevProject.title }}</span>
+      </NuxtLink>
+      <div v-else />
+      <NuxtLink v-if="nextProject" :to="`/projects/${nextProject.slug}`" class="panel nav-link nav-link--next">
+        <span class="caption">Next</span>
+        <span class="title-sm">{{ nextProject.title }}</span>
+      </NuxtLink>
+    </nav>
   </div>
 </template>
 
 <script setup lang="ts">
 const route = useRoute()
-const slug = route.params.slug as string
-
 const { data: allProjects } = await useFetch('/api/projects')
 
 const project = computed(() =>
-  allProjects.value?.find((p: any) => p.slug === slug)
-)
-
-const currentIndex = computed(() =>
-  allProjects.value?.findIndex((p: any) => p.slug === slug) ?? -1
-)
-
-const prevProject = computed(() =>
-  currentIndex.value > 0 ? allProjects.value?.[currentIndex.value - 1] : null
-)
-
-const nextProject = computed(() =>
-  allProjects.value && currentIndex.value < allProjects.value.length - 1
-    ? allProjects.value[currentIndex.value + 1]
-    : null
+  allProjects.value?.find((p: { slug: string }) => p.slug === route.params.slug),
 )
 
 const categoryLabel = computed(() => {
-  const map: Record<string, string> = {
-    web: 'Web',
-    mobile: 'Mobile',
-    extension: 'Extension',
-  }
-  return map[project.value?.category ?? ''] || project.value?.category || ''
+  const map: Record<string, string> = { web: 'Web', mobile: 'Mobile', extension: 'Extension' }
+  return map[project.value?.category ?? ''] ?? project.value?.category
+})
+
+const hasPreview = computed(() => {
+  const p = project.value?.previews
+  return p && (p.desktop || p.tablet || p.mobile)
+})
+
+const hasCaseStudy = computed(() => Boolean(project.value?.situation))
+
+const caseSections = computed(() => {
+  const p = project.value
+  if (!p) return []
+
+  return [
+    { title: 'Reasoning', copy: p.reasoning },
+    { title: 'Choice', copy: p.decision },
+    { title: "What I'd repeat", copy: p.craftMoment },
+    { title: 'Outcome', copy: p.outcome },
+  ].filter((section) => section.copy)
+})
+
+const extraImages = computed(() => {
+  const images = project.value?.images ?? []
+  const hero = project.value?.previews?.desktop
+    || project.value?.previews?.mobile
+    || images[0]
+  return images.filter((img: string) => img !== hero)
+})
+
+const repoLabel = computed(() => {
+  const url = project.value?.links.github
+  if (!url) return ''
+  return url.replace('https://github.com/', '')
+})
+
+const projectIndex = computed(() =>
+  allProjects.value?.findIndex((p: { slug: string }) => p.slug === route.params.slug) ?? -1,
+)
+
+const prevProject = computed(() => {
+  const i = projectIndex.value
+  return i > 0 ? allProjects.value?.[i - 1] : null
+})
+
+const nextProject = computed(() => {
+  const i = projectIndex.value
+  const list = allProjects.value
+  return list && i >= 0 && i < list.length - 1 ? list[i + 1] : null
 })
 
 useHead({
-  title: computed(() => project.value?.title ?? 'Project'),
-  meta: [
-    {
-      name: 'description',
-      content: computed(() => project.value?.description ?? ''),
-    },
-  ],
+  title: () => project.value?.title ?? 'Project',
 })
 </script>
 
 <style scoped>
-.back-link {
-  margin-bottom: var(--sp-8);
+.back {
+  display: inline-block;
+  margin-bottom: 1.5rem;
 }
 
-.detail-header {
-  margin-bottom: var(--sp-10);
-}
+.back:hover { color: var(--accent); }
 
-.detail-header__meta {
+.detail-head {
   display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-  margin-bottom: var(--sp-4);
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.25rem;
+  flex-wrap: wrap;
 }
 
-.detail-header__subtitle {
-  color: var(--c-text-secondary);
-  margin-top: var(--sp-3);
-  font-weight: 400;
+.detail-head__tags {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
-/* Two-column layout */
-.detail-body {
+.detail-head__sub {
+  color: var(--text-secondary);
+  margin-top: 0.35rem;
+}
+
+.detail-preview {
+  margin: 1.25rem 0 0.75rem;
+}
+
+.detail-grid {
   display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: var(--sp-10);
+  grid-template-columns: minmax(0, 1fr) 17rem;
+  gap: 0;
   align-items: start;
 }
 
-.detail-body__main {
+.detail-main {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-8);
+  gap: 0.75rem;
+  padding-right: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.detail-copy {
+  margin-top: 0.75rem;
+  max-width: none;
 }
 
 .detail-impact {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-2);
-  padding: var(--sp-6);
-  background: var(--c-bg-elevated);
-  border-radius: var(--r-md);
-  border-left: 3px solid var(--c-accent);
+  margin-top: 1rem;
 }
 
-.detail-gallery {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-6);
-  margin-top: var(--sp-8);
+.detail-impact strong {
+  color: var(--text-primary);
 }
 
-.detail-gallery__img {
+.case-flow {
+  display: grid;
+  gap: 1.1rem;
+  margin-top: 1.35rem;
+}
+
+.case-flow__section {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-hairline);
+}
+
+.case-flow__section .body-sm {
+  margin-top: 0.35rem;
+}
+
+.case-study__post {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-hairline);
+  color: var(--text-secondary);
+}
+
+.case-study__post strong {
+  color: var(--text-primary);
+}
+
+.constraint-panel .body-sm {
+  margin-top: 0.75rem;
+}
+
+.gallery {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.gallery img {
   width: 100%;
-  height: auto;
   border-radius: var(--r-md);
-  border: 1px solid var(--c-border);
+  border: 1px solid var(--border-hairline);
 }
 
-/* Sidebar */
-.detail-meta-card {
+.detail-side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   position: sticky;
-  top: calc(var(--nav-h) + var(--sp-6));
+  top: 1.5rem;
+  padding-left: clamp(1.5rem, 3vw, 2.5rem);
+  border-left: 1px solid var(--border-hairline);
 }
 
-.detail-stack {
+.tags {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sp-2);
-  margin-top: var(--sp-3);
+  gap: 0.35rem;
+  margin-top: 0.75rem;
 }
 
-.detail-links {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-  margin-top: var(--sp-3);
+.repo-link {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: var(--accent);
+  word-break: break-all;
 }
 
-/* Nav */
+.repo-link:hover {
+  text-decoration: underline;
+}
+
 .detail-nav {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--sp-4);
-  margin-top: var(--sp-16);
-  padding-top: var(--sp-8);
-  border-top: 1px solid var(--c-border);
+  gap: 0.75rem;
+  margin-top: 2rem;
 }
 
-.detail-nav__item {
+.nav-link {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-2);
-  padding: var(--sp-5) var(--sp-6);
+  gap: 0.25rem;
 }
 
-.detail-nav__item--next {
+.nav-link--next {
   text-align: right;
+  align-items: flex-end;
 }
 
-@media (max-width: 768px) {
-  .detail-body {
-    grid-template-columns: 1fr;
+@media (max-width: 800px) {
+  .detail-grid { grid-template-columns: 1fr; }
+
+  .detail-main {
+    padding-right: 0;
   }
 
-  .detail-meta-card {
+  .detail-side {
     position: static;
-  }
-
-  .detail-nav {
-    grid-template-columns: 1fr;
+    padding-left: 0;
+    padding-top: 1.5rem;
+    border-left: none;
+    border-top: 1px solid var(--border-hairline);
   }
 }
 </style>
