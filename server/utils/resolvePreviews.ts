@@ -5,6 +5,12 @@ import type { PortfolioProject, ProjectPreviews } from '../data/projects'
 const DEVICE_KEYS = ['desktop', 'tablet', 'mobile'] as const
 
 function publicFileExists(relativePath: string): boolean {
+  // ponytail: no real filesystem in the Cloudflare Workers runtime — public/
+  // assets are deployed as static files 1:1 with the repo, so the existence
+  // check only needs to run where fs actually works (Node: dev + prerender).
+  if (typeof navigator !== 'undefined' && navigator.userAgent === 'Cloudflare-Workers') {
+    return true
+  }
   const filePath = path.join(process.cwd(), 'public', relativePath.replace(/^\//, ''))
   return fs.existsSync(filePath)
 }

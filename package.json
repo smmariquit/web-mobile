@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@unocss/nuxt": "^66.7.4",
-    "@vercel/analytics": "^2.0.1",
     "gsap": "^3.15.0",
     "nuxt": "^3.21.6",
     "unocss": "^66.7.4",
