@@ -1,4 +1,4 @@
-# Web & Mobile Portfolio — Agent Guide
+# Web & Mobile Portfolio: Agent Guide
 
 Portfolio site at [web.stimmie.dev](https://web.stimmie.dev). Nuxt 3 + Nitro on Vercel.
 
@@ -14,27 +14,27 @@ Portfolio site at [web.stimmie.dev](https://web.stimmie.dev). Nuxt 3 + Nitro on 
 
 - **App:** Nuxt 3, Vue 3, Nitro server routes under `server/api/`.
 - **Data:** Static portfolio projects in `server/api/projects.get.ts`. Live GitHub stats/stack from `server/api/github-stats.get.ts` and `server/api/stack.get.ts` (cached 1h, SWR).
-- **Tech logos:** Official SVGs in `public/tech/` from [Simple Icons](https://simpleicons.org). Re-download with `bash scripts/download-tech-logos.sh` — do not hand-draw SVGs.
+- **Tech logos:** Official SVGs in `public/tech/` from [Simple Icons](https://simpleicons.org). Re-download with `bash scripts/download-tech-logos.sh`: do not hand-draw SVGs.
 - **Stack detection:** `server/utils/tech-stack.ts` maps repo topics/languages to web/mobile/platform tech with repo counts.
 - **Analytics:** `@vercel/analytics/nuxt` on deployed Vercel project. Live dashboard at `/stats` via `server/api/analytics.get.ts` (Vercel observability API; needs `VERCEL_TOKEN` + `VERCEL_TEAM_ID`).
 
 ## Env
 
-| Variable       | Required | Purpose                                      |
+| Variable | Required | Purpose |
 | -------------- | -------- | -------------------------------------------- |
 | `GITHUB_TOKEN` | Required for private repo counts and full stack detection |
-| `VERCEL_TOKEN` | For `/stats` live traffic dashboard          |
-| `VERCEL_TEAM_ID` | Team id for Vercel analytics queries       |
+| `VERCEL_TOKEN` | For `/stats` live traffic dashboard |
+| `VERCEL_TEAM_ID` | Team id for Vercel analytics queries |
 
 Without a token, unauthenticated GitHub API limits apply (usually fine for cached hourly fetches).
 
 ## Verify before done
 
-| Step              | When                          |
+| Step | When |
 | ----------------- | ----------------------------- |
-| `npm run build`   | Substantive changes           |
+| `npm run build` | Substantive changes |
 | Hit `/api/github-stats` locally | After GitHub API changes |
-| Re-run logo script | After adding tech icons      |
+| Re-run logo script | After adding tech icons |
 
 ## README sync
 
