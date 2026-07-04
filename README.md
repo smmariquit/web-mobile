@@ -1,4 +1,4 @@
-# web.stimmie.dev — Web & Mobile Portfolio
+# web.stimmie.dev: Web & Mobile Portfolio
 
 Nuxt 3 portfolio for freelance web and mobile work. Live GitHub stats and a tech stack grid derived from public repos.
 
