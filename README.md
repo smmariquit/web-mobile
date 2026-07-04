@@ -14,8 +14,8 @@ Nuxt 3 portfolio for freelance web and mobile work. Live GitHub stats and a tech
 
 ```bash
 npm install
-cp .env.example .env   # optional: GITHUB_TOKEN for higher API limits
-npm run dev            # http://localhost:3000
+cp .env.example .env # optional: GITHUB_TOKEN for higher API limits
+npm run dev # http://localhost:3000
 ```
 
 ## Scripts
