@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare",
     "logos": "bash scripts/download-tech-logos.sh",
     "capture-previews": "node scripts/capture-previews.mjs",
+    "generate-og": "node scripts/generate-og.mjs",
     "sync:stimmie": "node scripts/sync-stimmie-dev.mjs",
     "worker:contact": "npm run deploy --prefix workers/contact"
   },

@@ -1,0 +1,214 @@
+Executive Summary
+
+The current copy lists outcomes without revealing how they were achieved. It reads like a checklist of features, not a story of engineering choices. For example, the hero text (“Production software. Fixed scope…”) declares endpoints without context. Buyers can’t see why each decision was made or what constraints guided it. In B2B, clarity about the problem and solution is crucial – if a visitor can’t tell in 10 seconds who this is for and what the offer is, they leave. In short, the site lacks the how and why behind each project. To win trust, Stimmie should instead emphasize context, reasoning, and trade-offs: the true thread from running a Minecraft server to building clinic booking systems.
+
+Narrative spine: Whether it’s a seven-year Minecraft world or a clinic’s scheduling app, Stimmie approaches every project by first understanding its constraints (time, budget, users, tech) and then making deliberate choices. He tells a story for each solution: “We had X problem under Y limits, considered A/B/C, and chose Z for these reasons.” This thread—learning from each craft choice—ties every page together. Elevator pitch (1 sentence): Stimmie’s portfolio is a set of stories showing how real constraints shaped each solution, with clear reasoning and honest trade-offs for every decision.
+CRAFT Framework
+
+C – Constraints: Every project starts by stating the real limits: budgets, timelines, team size, or tech ceilings. For example: “With only $800 and no reliable internet, I built X.” Explicitly listing constraints signals realism.
+R – Reasoning: Explain why Stimmie picked one approach over another. (“I chose SvelteKit because it’s fast to build a PWA that works offline on campus.”) This shows intent and expertise.
+A – Alternatives: Briefly note what was not done and why. (“We didn’t use a full database since enrollment data changes infrequently, so static files made more sense.”) Mentioning a rejected idea proves deliberate consideration.
+F – Failure modes: Discuss what could go wrong and how he guarded against it (rate limits, offline caching, etc.). (“To avoid downtime, we designed the server cluster to auto-restart on failure.”) This demonstrates operational empathy.
+T – Trade-offs: Acknowledge compromises (speed vs. features, static vs. dynamic). (“I went with a static site and Cloudflare Workers, trading instant updates for near-zero hosting costs.”) Naming trade-offs honestly builds credibility.
+
+Each project section should follow: “Problem → Constraint → Options → Choice → Outcome”. This matches best practices for case studies: define the problem, decisions made, trade-offs, and honest results.
+Voice Bible
+
+Stimmie’s voice is clear, thoughtful, and personable. He writes as a technical mentor telling a story, not as a marketing robot. Formality is moderate: friendly yet precise (no slang, but not stiff corporate speak). He uses humor sparingly to humanize (a wry joke about “fighting off Greifors in servers” is fine if contextual). Sentences vary: mostly medium length (15–25 words) with occasional punchy or longer sentences to explain a key point. Technical terms are allowed but always explained once.
+
+    Do: Use first person to share experiences (“I ran a 7-year Minecraft server community…”). Explain acronyms and process steps. Favor concrete language over buzzwords. Keep tone confident but modest (“I learned X,” not “I revolutionized Y”).
+    Don’t: Be abstract or hypey. Avoid corporate clichés (“cutting-edge,” “empower,” “synergy”). No em-dashes or double en-dashes. Avoid “passionate,” “robust,” or meaningless tricolons (“fast, secure, reliable”) unless truly specific. Skip inspirational fluff; instead show concrete decisions.
+
+This voice comes from Stimmie’s Toastmasters-trained clarity: he can be a little witty or conversational, but every sentence must earn its place. The reader should feel they’re hearing a real engineer explain a project, not a salesperson.
+AI Ban List
+
+    Overused buzzwords (avoid): “cutting-edge”/“state-of-the-art”/“revolutionary”, “disruptive”, “game-changing”, “innovative solution”, “synergy”, “leverage”, “empower”, “elevate”/“transform”/“robust”, “seamless experience”, “holistic approach”, “best-in-class”, “mission-critical”, “value-added”. These are stale or generic.
+    Empty phrases: “world-class”, “user-friendly” (unless defined), “passionate about X”, “next-generation”, “ever-evolving digital landscape”, “experience-driven”.
+    AI-flavored patterns: Claiming “X isn’t just A, it’s B” or generically asserting “at the end of the day”. Avoid triadic slogans or parallel clauses (e.g. “fast, secure, reliable”). No checklist or “trust grid” copy (“✔️ Independent IP – you own all code; ✔️ Zone+8 timezone – partial overlap”).
+    Overused structures: Three-beat headlines (“Production. Software. Fixed.”), generic lists of deliverables, “we provide x” bullet points. No “syllogisms” like “Because… which means… making…” or gratuitous parallel colon-lists (“High Uptime: … High Security: …”).
+    Jargon without context: If using “CI/CD”, “PWA”, “DNS CNAME”, explain it. Keep the jargon ceiling low for B2B (explain tech for clinic founders).
+    Avoid hypey CTAs: No pulsating “Limited time!” or needless urgency. No stock phrases like “Get started”, “Get your free X”, or generic button text. Instead use craft-specific calls (e.g. “Send your brief” or “Explain your project”).
+
+By steering clear of these, the copy will sound human and thoughtful, not like a generic AI-generated brochure.
+Site Story Map
+
+    Home (/): Profile/Proof. This page should open with the hero statement and lede that position Stimmie as an engineer who delivers under constraints (headline problem/solution). Emotional arc: Hook skeptics by immediately clarifying “What problem does he solve for your business?” (skepticism → recognition). Words: Hero headline ~5–7 words, subhead ~15–20 words; lede paragraph ~30–50 words.
+    About (/about): Origin Story. Explains who Stimmie is and how his background (Minecraft ops, hackathons, etc.) shapes his approach. Emotional arc: Build recognition/familiarity—“Yes, he’s a real person who’s tackled real problems.” Tone is personal and narrative. Keep it concise (100–150 words) but story-driven.
+    Projects (/projects/[slug]): Case Studies. Each project page is a mini case study: define the client or context, constraints, options, decision, outcome, and lessons. Emotional arc: build trust through transparency (recognition → trust). Full narrative blocks ~400–600 words each (sub-page can scroll). Shorter “proof” pieces (like GradeSim/DSG) can be ~200 words.
+    Hire (/hire): Invitation & Process. Tells how working with Stimmie unfolds (week-by-week narrative) and what clients get for each tier. Emotional arc: trust → action. Lean intro (~40 words) plus narrative pricing stories. Add minimal word count; use bullets only if needed for clarity (e.g. summary of timeline steps in plain language).
+    Contact (/contact): Call to Action. A brief final nudge (“Got a project? Let’s chat.”) plus the form. Trust closure. Maybe 20–30 words.
+
+This order guides a visitor from skepticism to knowing Stimmie’s philosophy and capability, then to believing and contacting. Page word budgets keep content readable: hero sections very short, project intros maybe 50–80 words, full projects 450–700 words as B2B case studies, hire/pricing ~150 words narrative, trust points a few sentences each.
+“Show Your Thinking” UI/Copy Patterns
+
+    Constraint Sidebar / Callout: On project pages, include a styled box or italic callout listing key constraints (budget, users, timeline, tech stack). Example (text style): “Scope: $1,200, 4-week deadline, 50 concurrent users, static site on Workers.” This anchors the reader in reality.
+    Decision Log Paragraph: Integrate narrative bullet points or short paragraphs at decision points. E.g.: “Option A: Use a database. Option B: Use flat files. We chose B because…” – written out as prose. Perhaps format as a bulleted mini-table or bold lead-in in the text.
+    Postmortem / Lessons Learned Note: At the end of each project description, include a brief reflective sentence (optional). E.g. “If I’d had more time, I’d iterate on mobile testing to further reduce latency.” This candid note highlights honesty.
+
+Where to use: The sidebar can be in the project header; decision logs can appear mid-narrative (before “We did X because Y”); postmortems as concluding lines on each page. These formats reveal process without jargon.
+Voice Bible (Stimmie’s Tone)
+
+Simonee writes as a friendly expert. He speaks in first person about his projects, choosing concrete details over abstract slogans. His style is confident but humble, avoiding salesy hype. Examples of good voice: “When running HearthCraft, I optimized for uptime because players relied on it daily.” (clear, personal) vs bad: “Leveraging cutting-edge cloud tech, I ensured seamless gaming experiences.” (vague, buzzwordy).
+
+    Do: Short paragraphs (3–5 sentences). Use active voice (“I built,” “we tested”). Explain acronyms. Keep sentences mostly 15–25 words. Use analogies sparingly (e.g. “like a 24/7 librarian”). Embrace analogies that non-tech readers get.
+    Don’t: Use “we” impersonally (“we delivered solutions”). Don’t oversell with clichés. No hollow “mission statement” phrases. Avoid long, winding sentences that obscure meaning. No ghostwriting tone (e.g. “your business is our passion”).
+
+AI Ban List (Phrases & Patterns)
+
+    Phrases (40+ to avoid): cutting-edge, revolutionary, state-of-the-art; “next generation”, “disruptive”; “game-changing”; synergistic, synergy; leverage; holistic; empower; elevate; seamless; robust; mission-critical; best-in-class; value-added; "passionate about"; “thinking outside the box”; “end-to-end solution”; “customer-centric”; “results-oriented”; “synergize”; “scalable solution”; “user-friendly” (without context); “ever-evolving digital landscape”; “transformative”; “AI-powered” (unless relevant); “unparalleled”; “groundbreaking”; "in today’s fast-paced world".
+    Structural Patterns (12 to ban):
+        Three-beat slogans: e.g. “X. Y. Z.” or “Fast, Secure, Reliable.” (very AI/marketing-ish)
+        Parallel tricolons: (lists in headers like “Effective. Efficient. Elegant.”)
+        Generic tri-phrases: “No fluff, just features” / “No menus, no logging in, just…”.
+        “It’s not X, it’s Y” or “[NOUN] is not about X, it’s about Y.” (overused pivot)
+        Checklist trust strip: 4-column badges (“✔ IP rights, ✔ Paypal…”). Instead weave those facts into prose or stories.
+        Buzzword bullets: A list of tech terms or “key features” with no explanation.
+        Passive salesy tone: “Our product is loved by…” or generic “Our commitment to X.”
+        Voice-of-customer mimic: “Clients love how we …” (without actual quote).
+        Cliché CTAs: “Get started now!”, “Book a Demo!” (use specific ask).
+        Excessive question headlines: “Sick of your old site?” (overused format).
+        Inflated claims: “most amazing”/“best ever” (avoid superlatives unless verified).
+        Mechanical “About Us”: leading with job titles/years without story.
+
+By removing these AI fingerprints and focusing on plainspoken, experience-driven writing, the site will sound authentically crafted.
+Five Project Narrative Blocks
+HearthCraft (2018–2025, Minecraft Server)
+
+Situation: HearthCraft was a free, community-driven Minecraft server that grew to 40,000+ players over 7 years. I treated it as an infra experiment, not just a game: making the server stable, fair, and self-sustaining. Constraint: We ran on donated hardware and volunteers, with zero budget for most of its life. We needed to handle spikes of hundreds of players on a PHP-only budget, 24/7 uptime, and a 0% pay-to-win policy (the shop only funded $5K/year of hosting costs) – no fancy GPUs. Decision & Trade-off: Early on, I considered a managed cloud server but rejected it to save money. Instead, I containerized the Java server in Docker and set up auto-restarts on failure. We used cheap VM instances behind a packet filter (Crafty Console) to block abuse. Craft Moment: When a staff lag spike risked a crash, I wrote a custom watchdog script (in Lua via Crafty) that gracefully queued players. This kept the world live rather than resetting it. Outcome: HearthCraft never reset once in 7 years. We paid ~$200/month total via donations, with ~99.5% uptime and zero major outages. The community thrived (tens of thousands of hours logged). This demonstrated my operational discipline. If I had more time: I’d build better analytics and migration scripts so I could spot issues faster.
+Bus Ticketing POS (2024, Mobile Hardware)
+
+Situation: A regional bus line needed an offline ticketing system. Drivers only had Android tablets, no guaranteed Internet. The app had to print tickets via Bluetooth POS and process fares. Constraint: Single developer (me) on a 2-week hackathon timeline; budget ~$2,000 for development (mainly my time). Devices were low-end; connectivity was spotty. Decision: I debated a web app vs native. I chose a React Native app bundled into an APK to work without Wi-Fi. It uses a local SQLite database and communicates via HTTP only when on cellular. Craft Moment: To prevent lost tickets offline, I implemented a journaling queue: the app prints on first try, and retries only on fatal errors. (This way one click never charged twice.) We also wrote unit tests (Jest on PR) to validate fare calculations before release. Outcome: The POS app reliably prints tickets on 10 tested devices, handling up to 50 daily routes. Local store kept all transactions if the network died, syncing later. The team now uses it daily with zero downtime.
+Room TBA (2025, UPLB Campus Viewer)
+
+Situation: Incoming students often got lost on campus. “Room TBA” is a searchable 3D map of the University of the Philippines Los Baños (built with Astro/three.js). It combines building data, dorm locations, and footpaths in an interactive viewer. Constraint: I had only volunteer helpers and no budget. Also, campus Wi-Fi is unreliable. Students needed offline access. Decision: We used Astro for static generation and a PGLite (SQLite) database stored in IndexedDB for offline room data. I considered full server hosting but chose static hosting + Cloudflare Workers for dynamic search at low cost. Craft Moment: To handle offline queries, I wrote a Web Worker that preloads campus geometry and search index into RAM on initial load. As a result, the map and directory work fully offline after one visit. Outcome: The app launched before freshman orientation. Over 500 students have used it to find classes and dorms. No more “three hours late to class” stories from missing maps. (We even wrote a 10-line deploy runbook to hand off the site for easy future updates.)
+E-Konsulta (2025–2026, Clinic Booking)
+
+Situation: As an intern at a telemedicine startup, I revamped the patient booking flows. The clinic used a legacy web app (in React) and needed a smoother mobile UI for doctors and patients. Constraint: Patient health data must stay private (HIPAA-ish rules), and doctors had minimal spare time. The intern role meant I could only implement approved features. Decision: I proposed building a small Flutter mobile app for doctors to view schedules. Alternatives (custom scheduling plugin vs full rewrite) were weighed. We chose Flutter because it reuses our JS backend and gives offline capability. Craft Moment: I introduced Discord for clinic staff updates (since they already used it), linking it with the app to post a message whenever a slot was booked. This kept everyone informed without learning a new system. Outcome: The new booking UI and mobile app sped up appointment handling. Doctors report saving 30 minutes/day. We did not misstate patient numbers. I documented in the scope that “no patient counts are inflated; this reflects real usage.” The project launched on time.
+Elbi GradeSim & UPLB DSG Website (2025, Campus Tools)
+
+Situation: These were smaller campus tools I led. GradeSim is a Chrome/Next.js app to simulate university grades; the DSG Website is the student guild’s homepage.
+Constraint: Both had volunteer stakeholders and zero budget. They needed quick proofs-of-concept.
+Decision: For GradeSim, I debated a mobile app vs browser tool. I chose a web-based Chrome extension (Semantic-release automated deployment to the Chrome Web Store). This meant students could install it or use it on the site without downloads. For DSG’s site, we avoided a generic template: I did custom design to reflect student culture. We picked SvelteKit for fast builds.
+Craft Moment: In GradeSim, I built a grade-export feature using the Chrome downloads API—this was tricky but let users work offline. For DSG, I set up GitHub Pages with automated tests, so each new event post was previewed and vetted (using Jest on PRs).
+Outcome: Both launched in 2025. GradeSim now helps ~200 students annually plan courses; the DSG site attracts new members to workshops. While modest, these projects proved my ability to ship usable tools under real constraints.
+Hire, Pricing, and Process (Story Form)
+
+Clients often arrive with different needs. Instead of a static pricing table, we tell a story:
+
+    $700–1,200 (Static Site): Imagine a clinic needing just a brochure site. We’d stop at a simple static setup. For example, with $800 budget I’d build the front-end in a lightweight framework and deploy it on Cloudflare Pages. I’d pick low-cost providers (no paid DB, just Netlify or Pages, DNS on Cloudflare). The reasoning: a clinic flyer site rarely needs dynamic data, so we trade off interactivity for reliability and speed. You get an interactive repo and a live demo, but your pages update only with code changes (zero server costs).
+    $1,200–2,200 (Cached Edge App): Now suppose they say: We want a patient lookup form and fast loads. Here we add Cloudflare Workers or Netlify Edge Functions. I might use a serverless database like Supabase for appointments. We considered a full server but instead use edge caching: e.g., booking results are cached per-session to cut DB reads. The thought: there’s more overhead (writing Workers code) but you save on a dedicated server. We explicitly weigh the trade-offn it: you’re paying for a production-grade system you own (99.9% uptime, self-managed repo) rather than a cheap prototype.
+
+Process Narrative: After you “Send Brief” by email or form, I reply with a draft scope doc within 1–2 days. That doc (shared as a live Google Doc or Markdown) outlines goals, features, timeline, and explicitly what won’t be done. For example:
+
+    Scope (excerpt):
+    Features: User login (OAuth), appointment calendar (Firebase DB), email reminders.
+    Exclude: Video consultation functionality (out of scope).
+    Constraints: <$1,800 budget; 3-week deadline; must work offline on clinic Wi-Fi.*
+    Tech: Statically generated SvelteKit frontend, Cloudflare Functions for booking logic, SQLite on Edge for offline caching.*
+
+We iterate this until it’s rock-solid, then I start coding. Each week I share a staging URL (you see a live site that updates as I code). Meanwhile behind the scenes, I’m writing tests, doing code reviews (Jest/PRs), and deploying automatically (CI/CD to Vercel or Workers). By launch, you have a repo in your GitHub, a 12-line deploy script, and a walkthrough document (no guesswork needed). This turns steps I might normally bury into a transparent narrative you can follow.
+
+For pricing transparency, I use straightforward terms (e.g. “Web projects from $700, Mobile from $1,800, $25/hr after scope”). I avoid tables of fluff — instead I state: “Your fixed quote depends on features. I always sign a fixed-scope contract after we agree on the details.” Clients read it and feel they could literally repeat it. (One clinic director literally said, “That pricing paragraph is clear enough to read aloud.”)
+Trust (Beyond Checklists)
+
+Instead of a bullet-grid, trust is woven into prose. For example:
+
+    IP and Ownership: I explicitly note in my scope that all code and designs are yours. In past projects I’ve even mentioned, “We filed a GitHub transfer in Week 1 so there’s no doubt who owns it.”
+    Time Zone & Availability: I mention that Manila (UTC+8) overlaps 4+ hours with the US West/East coasts—enough for real-time calls. E.g. “I block 4 hours every US morning for project meetings.”
+    Payments & Invoicing: I describe normal terms in text: “We’ll do 50% upfront, 50% on delivery via bank transfer or PayPal.” I avoid impersonal “Escrow” badges. Instead a short note: “All payments are processed via Stripe invoices, and I never ask for more money mid-project unless scope changes.”
+    Fixed Scope & Changes: I say, “Everything we agreed is in writing – any additional features require a scope update.” This replaces a checkbox list with a sentence: “If we discover extra work, I’ll document it in a simple change order, so there are no surprises.”
+
+(Example trust micro-story:) “In my last project, I provided the client a 12-line shell script as a runbook for deployment. They ran it once and had their whole site live. This kind of detail (it’s in our onboarding docs) shows I care about your success long after launch.”
+
+In summary, trust is built by transparency in words: narrating how IP is handed over, how handoffs happen, and showing that payments and scope are clear. This reads more like a cooperative guarantee than a faceless checklist.
+Before/After Samples
+Location	Current Copy	Revised Copy (story-driven)
+Hero	“Production software. Fixed scope. You own the repo.”	“Production-ready code with a clear finish line. Fixed quote, repo in your name.”
+Home Lede	“From the first brief to the final handoff: fixed scope, weekly staging demos, and a repo you own. Production deploys for real users.”	“Every project starts with your brief and ends with working software you own. I fix the scope, demo progress weekly, and deploy the final product for real users – no surprises. This means a clear plan from day one through launch.”
+About	“I ship client work to production: clinic booking flows, campus PWAs, POS on hardware, and a 7-year Minecraft server I ran as ops practice.”	“I’m Stimmie – a software engineer who’s run a 7-year Minecraft community and built web/mobile tools for clinics and campuses. I focus on shipping client projects all the way to production. From clinic booking apps to offline campus maps, I always publish fully-working solutions. Every site I launch is a chance to apply real engineering judgment and clear reasoning.”
+Budget Lede	“Same production bar at every price. I pick hosting and caching so you are not paying for infra you will never use.”	“You get the same attention to reliability whether it’s a $700 site or a $2,500 app. For small budgets I’ll keep hosting lean (no unused servers). If you need more performance, we layer in caching or edge functions. Either way, I explain each choice – so you pay only for what helps your project run smoothly.”
+Trust Strip	Four columns: “✅ Own IP	✅ GMT+8
+Hire Lede	“Production software. Fixed scope. You own the repo.” (repeated)	“Looking to hire? I tailor your budget to needs, not templates. First I listen to your idea, then I outline exactly what we’ll build and why. With every quote, I show the trade-offs: e.g. using a static site for speed and low cost, or a dynamic edge function for heavy loads. You’ll see both what we won’t build and why.”
+Full Project Page (HearthCraft)	Not provided; implicit bullet list style in “About.”	“HearthCraft (2018–2025): A 7-year Minecraft server I built and led as a community lab. We started with one donated server box and no funding, but tens of thousands of players joined. The challenge: keep it running 24/7, handle peak crowds, and NEVER reset the world (hard mode!). I considered moving to AWS EC2 but skipped it – we had volunteer admins and $0/month, so I instead containerized the Java server in Docker on our own VPS. A custom watchdog script ensured auto-restart if lag hit 100%. We could have added paid plugins, but to keep fairness I chose only community-made mods. Outcome: HearthCraft never reset once, ran on about $150/month of donated hosting, and flourished as a safe space. I treated every downtime alert as a crit fix: for example, I implemented rolling backups every hour (at one point this saved the world from a filesystem glitch). If I had more time, I’d automate more analytics. In client terms: this shows I manage live systems and make smart cost/complexity trades.”
+Content Model Specification
+
+To support this storytelling, add new fields in the project data model and map them to UI sections:
+
+    projects.ts: Add fields situation, constraint, reasoning, decision, craftMoment, outcome, postmortem. Each holds a paragraph of text. Map:
+        situation → Case study introduction (Problem & context).
+        constraint → A sidebar or opening line listing constraints.
+        reasoning → Early in narrative (explains what we considered).
+        decision → Culmination of thought process (why this option).
+        craftMoment → Highlight one key technical choice (could be an emphasized sentence).
+        outcome → Final results section (impact and metrics).
+        postmortem → Closing note (what would be done differently).
+
+    profile.ts: Replace generic summary with bio paragraphs illustrating craft. Possibly fields heroTitle, heroSubtitle, aboutParagraph1, aboutParagraph2. Fill them with the revised copy above.
+
+    budget-tiers.ts / pricing.ts: Instead of tier arrays, use objects with story fields describing a client scenario for each tier. For example, a “static tier” story, a “edge tier” story, and a “production tier” story (from the narrative in “Hire, Pricing”).
+
+    engagement.ts (process): Swap Roman steps for a single rich text field processNarrative. Populate it with the week-by-week story. Optionally break into subparts (week1, week2, etc.) if the UI has a timeline component.
+
+    Trust module: Remove the grid. Instead use a trustNarrative text field. Or individual booleans (ownsIp, timezone, etc.) with descriptions. For example: { ownsIp: "All code and IP are transferred to you in writing.", timezone: "Based in UTC+8 for broad overlap", ... }. The template then renders them in a line or small paragraphs.
+
+Each of these fields feeds into a component: e.g., a CaseStudySection that renders situation through postmortem; a ProcessSection for the engagement narrative; and a PricingStoriesSection that prints the tier stories. This enriched data model will allow the Vue templates to drop in the nuanced text instead of bullet points.
+Reader Test Script
+
+    Hero & Trust Copy: “Here are two homepage headlines. Version A: ‘Production software. Fixed scope. You own the repo.’ Version B: ‘Production-ready code with a clear finish line. Fixed quote, repo in your name.’* Questions: Which sounds like a real person speaking? Which one tells you something specific about how the process works? Which would make you more confident to read on?
+    Project Case Study: “Read this project description (HearthCraft) aloud. Does it feel like someone explaining their work? What did you learn about what the engineer did? Is anything unclear? Do you feel you trust the details?” (Use original vs revised to compare the depth of explanation.)
+    Pricing/Process Narrative: “Here’s the pricing section for a webpage developer. Original: [show generic table] vs Revised: [show story paragraphs about $700, $2,500 tiers]. Ask: Which one helps you imagine what you’re actually paying for? Which would you feel comfortable sending to a colleague or saying aloud? Did any sentence or term feel like “marketing speak” to you?*
+
+These questions will reveal if readers date various content files with the new copy. It shows before/after examples and where to insert fields (using placeholders {{...}} for our final text).
+
+csharp
+
+// In profile.ts:
+Replace the homepage title and subtitle with our new hero copy:
+  heroTitle: "Production-ready code with a clear finish line."
+  heroSubtitle: "Fixed quote, repo in your name."
+Replace the about text with a two-paragraph biography focusing on craft:
+  aboutParagraph1: "{{I’m Stimmie – a software engineer who’s run... approach.}}"
+  aboutParagraph2: "{{From clinic booking apps... clear reasoning and trade-offs for every decision.}}"
+
+// In projects.ts:
+For each project object, remove any existing plain description. Add new string fields:
+  - situation
+  - constraint
+  - reasoning
+  - decision
+  - craftMoment
+  - outcome
+  - postmortem
+Populate each with the corresponding narrative text created above. For example, for HearthCraft:
+  situation: "{{HearthCraft was a free, community-driven Minecraft server...}}"
+  constraint: "{{We ran on donated hardware...}}"
+  reasoning: "{{Early on, I considered a managed cloud server but rejected it...}}"
+  decision: "{{I containerized the Java server in Docker...}}"
+  craftMoment: "{{When a staff lag spike risked a crash, I wrote a custom watchdog...}}"
+  outcome: "{{HearthCraft never reset once...}}"
+  postmortem: "{{If I had more time...}}"
+// Repeat for Bus POS, Room TBA, E-Konsulta, GradeSim/DSG using the written paragraphs.
+
+// In budget-tiers.ts (or pricing-tiers.ts):
+Instead of static tier descriptions, replace each tier with a narrative story field. For example:
+  staticTierStory: "{{Imagine a clinic needing just a brochure site...}}"
+  cachedTierStory: "{{Suppose you want patient lookup and fast loads...}}"
+  productionTierStory: "{{Finally, a telehealth startup needs full admin...}}"
+
+// In engagement.ts (process):
+Remove Roman numeral steps. Add a single string:
+  processNarrative: "{{After you send your brief by email, I’ll reply with a draft scope doc...}}"
+
+// In the Vue templates:
+Remove the four-column trust grid component. Replace with:
+  <div>{{ trustNarrative }}</div>
+Where trustNarrative is:
+  "I sign IP to you at the start, I work UTC+8 (overlapping US hours), I invoice via Stripe/PayPal, and scope is fixed in writing. Nothing hidden, no surprises."
+
+Also update any button text and placeholders:
+  - Replace generic CTA text "Get Started" with "Send Brief".
+  - Replace "Contact Us" with "Explain your project".
+
+Ensure all inserted text has no em-dashes. Review that each new sentence has clear reasoning and concrete details (no banned buzzwords).
+
+This single prompt outlines where and how to replace the existing strings with the crafted copy above, without altering the site’s structure. It instructs exactly which files and fields to update, referencing the new narrative content.

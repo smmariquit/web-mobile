@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    @font-face {
+      font-family: 'Hanken Grotesk';
+      src: url('../public/fonts/hanken-grotesk-var.woff2') format('woff2');
+      font-weight: 100 900;
+      font-style: normal;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+    }
+
+    body {
+      font-family: 'Hanken Grotesk', system-ui, sans-serif;
+      background: #0E6B5F;
+      color: #f5f0e8;
+      display: flex;
+      align-items: stretch;
+    }
+
+    .card {
+      width: 1200px;
+      height: 630px;
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle noise/texture overlay */
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse at 10% 90%, rgba(255,255,255,0.04) 0%, transparent 55%),
+        radial-gradient(ellipse at 90% 10%, rgba(0,0,0,0.12) 0%, transparent 55%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Left content column */
+    .left {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 56px 52px 52px;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .top {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .kicker {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.6);
+    }
+
+    .kicker-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(245,240,232,0.4);
+      flex-shrink: 0;
+    }
+
+    .headline {
+      font-size: 68px;
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #f5f0e8;
+    }
+
+    .subline {
+      font-size: 22px;
+      font-weight: 400;
+      color: rgba(245,240,232,0.7);
+      line-height: 1.4;
+      max-width: 520px;
+    }
+
+    .bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tags {
+      display: flex;
+      gap: 10px;
+    }
+
+    .tag {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.55);
+      border: 1px solid rgba(245,240,232,0.2);
+      border-radius: 99px;
+      padding: 5px 14px;
+    }
+
+    .domain {
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(245,240,232,0.45);
+      letter-spacing: 0.02em;
+    }
+
+    /* Right photo column */
+    .right {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 52px 40px;
+      gap: 24px;
+    }
+
+    .avatar-wrap {
+      position: relative;
+    }
+
+    .avatar {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      border: 3px solid rgba(245,240,232,0.2);
+    }
+
+    .name {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      color: #f5f0e8;
+      line-height: 1.3;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(245,240,232,0.55);
+      margin-top: 2px;
+      letter-spacing: 0.02em;
+    }
+
+    /* Corner logo mark */
+    .logomark {
+      position: absolute;
+      top: 44px;
+      right: 44px;
+      width: 32px;
+      height: 32px;
+      z-index: 2;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <!-- Brand mark top-right -->
+    <svg class="logomark" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="32" height="32" rx="8" fill="rgba(245,240,232,0.12)"/>
+      <path d="M9 9h5.5M9 9v5.5" fill="none" stroke="#f5f0e8" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M23 23h-5.5M23 23v-5.5" fill="none" stroke="#f5f0e8" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="16" cy="16" r="2" fill="#f5f0e8" opacity="0.9"/>
+    </svg>
+
+    <!-- Left content -->
+    <div class="left">
+      <div class="top">
+        <div class="kicker">
+          <span class="kicker-dot"></span>
+          Freelance Web &amp; Mobile
+        </div>
+        <div class="headline">Production&#8209;ready<br>code. Clear<br>finish line.</div>
+        <div class="subline">Scope doc &amp; fixed quote before I code. Repo in your name at launch.</div>
+      </div>
+      <div class="bottom">
+        <div class="tags">
+          <span class="tag">Web</span>
+          <span class="tag">Mobile</span>
+          <span class="tag">Nuxt</span>
+        </div>
+        <span class="domain">web.stimmie.dev</span>
+      </div>
+    </div>
+
+    <!-- Right photo -->
+    <div class="right">
+      <div class="avatar-wrap">
+        <img class="avatar" src="../public/profile/stimmie.jpg" alt="Simonee Mariquit" />
+      </div>
+      <div>
+        <div class="name">Simonee Mariquit</div>
+        <div class="title">Software Engineer</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
