@@ -38,6 +38,9 @@
                   <img
                     :src="currentSrc"
                     :alt="`${title} mobile preview`"
+                    width="390"
+                    height="844"
+                    decoding="async"
                     loading="lazy"
                   />
                 </div>
@@ -52,6 +55,9 @@
             <img
               :src="currentSrc"
               :alt="`${title} device preview`"
+              width="1280"
+              height="800"
+              decoding="async"
               loading="lazy"
             />
           </div>
@@ -68,6 +74,9 @@
             <img
               :src="currentSrc"
               :alt="`${title} ${active} preview`"
+              width="1280"
+              height="800"
+              decoding="async"
               loading="lazy"
             />
           </div>
